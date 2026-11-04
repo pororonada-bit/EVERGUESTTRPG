@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EVER QUEST | Online TRPG</title>
+<style>
+:root{--bg:#101319;--panel:#191e27;--panel2:#202735;--line:#333d4e;--text:#edf1f7;--muted:#9da9ba;--gold:#d6b16d;--green:#68c49b;--red:#f07878;--blue:#86b9f7}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#202737 0,#101319 55%);color:var(--text);font:15px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer;border:1px solid var(--line);background:#2a3342;color:var(--text);border-radius:9px;padding:9px 12px}button:hover{border-color:var(--gold);filter:brightness(1.08)}button.primary{background:var(--gold);color:#171717;border-color:var(--gold);font-weight:750}button.ghost{background:transparent}input,select,textarea{width:100%;background:#11161e;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:10px;outline:none}input:focus,select:focus,textarea:focus{border-color:var(--gold)}label{display:block;color:var(--muted);font-size:12px;margin:0 0 5px}h1,h2,h3,p{margin-top:0}h1{font-size:22px;margin-bottom:2px;letter-spacing:.08em}h2{font-size:16px;margin-bottom:12px}h3{font-size:14px;margin-bottom:8px}.muted{color:var(--muted)}.small{font-size:12px}.eyebrow{color:var(--gold);font-size:11px;letter-spacing:.18em;font-weight:800}.app{max-width:1500px;margin:auto;padding:18px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0 18px;border-bottom:1px solid var(--line);margin-bottom:16px}.brand{display:flex;align-items:center;gap:12px}.logo{width:44px;height:44px;border:1px solid #6f6043;border-radius:13px;display:grid;place-items:center;background:linear-gradient(145deg,#51452f,#222833);font-size:24px}.top-actions{display:flex;gap:8px;align-items:center}.status{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);padding:6px 9px;border-radius:99px;font-size:12px;color:var(--muted)}.dot{width:7px;height:7px;background:var(--green);border-radius:50%}.layout{display:grid;grid-template-columns:260px minmax(300px,1fr) 330px;gap:14px;align-items:start}.panel{background:linear-gradient(180deg,rgba(29,35,46,.97),rgba(23,28,37,.97));border:1px solid var(--line);border-radius:14px;padding:15px;min-width:0;box-shadow:0 10px 35px #0002}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}.panel-head h2{margin:0}.stack{display:grid;gap:12px}.field{margin-bottom:10px}.twocol{display:grid;grid-template-columns:1fr 1fr;gap:9px}.char-card{border:1px solid var(--line);border-radius:11px;padding:11px;background:#121720;margin-bottom:9px}.char-top{display:flex;justify-content:space-between;gap:8px;align-items:center}.char-name{font-weight:750}.tag{font-size:11px;color:var(--gold);border:1px solid #6b593b;border-radius:6px;padding:3px 6px}.meter{height:7px;background:#343b48;border-radius:99px;overflow:hidden;margin:8px 0 5px}.meter span{display:block;height:100%;background:var(--green);transition:width .2s}.meter.hp span{background:#d96c72}.meter-row{display:flex;justify-content:space-between;color:var(--muted);font-size:12px}.actions{display:flex;flex-wrap:wrap;gap:6px}.actions button{font-size:12px;padding:7px 9px}.map-board{position:relative;min-height:360px;border:1px dashed #596477;border-radius:11px;overflow:hidden;background:linear-gradient(135deg,#1b2630,#111820);background-position:center;background-size:cover}.map-board:before{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(#ffffff0b 1px,transparent 1px),linear-gradient(90deg,#ffffff0b 1px,transparent 1px);background-size:32px 32px}.map-empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:25px;color:#aab4c3}.map-empty strong{display:block;color:#d9e0ea;margin-bottom:7px}.token{position:absolute;z-index:2;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:#29384a;border:2px solid var(--gold);box-shadow:0 4px 14px #0009;cursor:grab;font-weight:800;user-select:none}.token small{position:absolute;top:48px;white-space:nowrap;font-size:11px;font-weight:500;text-shadow:0 2px 4px #000;background:#111b;padding:2px 5px;border-radius:4px}.scene-tools{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px}.log{height:280px;overflow:auto;background:#11161e;border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:8px}.message{padding:8px 9px;border-radius:8px;background:#1b222d;overflow-wrap:anywhere}.message .meta{display:flex;justify-content:space-between;gap:10px;font-size:11px;color:var(--muted);margin-bottom:4px}.message.roll{border-left:3px solid var(--gold)}.message.system{border-left:3px solid var(--blue)}.chat-compose{display:flex;gap:7px;margin-top:8px}.chat-compose input{min-width:0}.dice-result{padding:12px;border:1px solid #65583f;border-radius:10px;background:#29261f}.dice-number{font-size:28px;font-weight:850;color:var(--gold)}.dice-controls{display:grid;grid-template-columns:1fr 1fr;gap:8px}.divider{height:1px;background:var(--line);margin:12px 0}.notice{font-size:12px;color:var(--muted);line-height:1.5}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#e7d2a6;color:#1b1b1b;padding:10px 16px;border-radius:9px;font-weight:700;box-shadow:0 8px 30px #0006;display:none;z-index:10}.modal-back{position:fixed;inset:0;background:#0009;display:none;place-items:center;padding:16px;z-index:20}.modal{width:min(520px,100%);background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:20px;max-height:90vh;overflow:auto}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}.mobile-tabs{display:none}.footer{padding:18px 2px 4px;color:var(--muted);font-size:11px;text-align:center}
+@media(max-width:1050px){.layout{grid-template-columns:240px minmax(0,1fr)}.right-col{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:14px}.right-col>.panel{min-width:0}}
+@media(max-width:680px){.app{padding:10px}.topbar{align-items:flex-start}.top-actions .status{display:none}.layout{display:flex;flex-direction:column}.layout>*,.right-col{width:100%}.right-col{display:flex;flex-direction:column}.map-board{min-height:310px}.mobile-tabs{display:flex;gap:6px;overflow:auto;margin-bottom:12px}.mobile-tabs button{white-space:nowrap}.top-actions button{padding:8px}.log{height:230px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+ <div class="brand"><div class="logo">⚔</div><div><div class="eyebrow">ONLINE TABLETOP RPG</div><h1>EVER QUEST</h1><div class="muted small">A story shaped by your rolls.</div></div></div>
+ <div class="top-actions"><span class="status"><span class="dot"></span><span id="connectionText">로컬 테스트 모드</span></span><button class="ghost" id="roomBtn">방 설정</button><button class="primary" id="saveBtn">저장</button></div>
+</header>
+<div class="mobile-tabs"><button data-scroll="characters">캐릭터</button><button data-scroll="mapPanel">맵</button><button data-scroll="chatPanel">채팅</button><button data-scroll="dicePanel">주사위</button></div>
+<div class="layout">
+ <aside class="panel" id="characters">
+  <div class="panel-head"><h2>🧙 캐릭터</h2><button id="addCharBtn">＋ 추가</button></div>
+  <div id="characterList"></div>
+  <div class="divider"></div>
+  <h3>선택한 캐릭터</h3>
+  <div class="field"><label for="charSelect">캐릭터 선택</label><select id="charSelect"></select></div>
+  <div class="field"><label for="charName">이름</label><input id="charName" maxlength="30" placeholder="캐릭터 이름"></div>
+  <div class="field"><label for="charClass">직업</label><select id="charClass">
+   <option>전사</option><option>궁수</option><option>마법사</option><option>사제</option><option>도적</option><option>성기사</option><option>창기병</option><option>대장장이</option>
+  </select></div>
+  <div class="twocol"><div class="field"><label for="charHP">현재 HP</label><input id="charHP" type="number" min="0" max="999"></div><div class="field"><label for="charMaxHP">최대 HP</label><input id="charMaxHP" type="number" min="1" max="999"></div></div>
+  <div class="field"><label for="charTrait">특기 / 메모</label><textarea id="charTrait" rows="2" placeholder="특기나 캐릭터 메모"></textarea></div>
+  <button class="primary" id="updateCharBtn" style="width:100%">캐릭터 적용</button>
+  <p class="notice" style="margin:10px 0 0">첫 버전은 이 브라우저에 저장돼. 온라인 방 공유는 백엔드 연결 후 활성화돼.</p>
+ </aside>
+ <main class="stack">
+  <section class="panel" id="mapPanel">
+   <div class="panel-head"><h2>🗺 장면 / 맵</h2><span class="tag">GM TOOL</span></div>
+   <div class="scene-tools"><button id="uploadMapBtn">배경 업로드</button><input id="mapInput" type="file" accept="image/*" hidden><button id="addTokenBtn">토큰 추가</button><button id="clearTokensBtn">토큰 초기화</button><button id="sceneBtn">장면 전환</button></div>
+   <div class="field"><label for="sceneName">장면 이름</label><input id="sceneName" value="잊혀진 왕국의 입구" maxlength="80"></div>
+   <div class="map-board" id="mapBoard"><div class="map-empty" id="mapEmpty"><div><strong>이곳이 모험의 무대입니다</strong>배경을 업로드하거나 토큰을 추가해 보세요.<br><span class="small">토큰은 드래그해서 이동할 수 있어요.</span></div></div></div>
+   <p class="notice" style="margin:9px 0 0">이미지 배경은 현재 브라우저에만 적용돼. 여러 참가자에게 공유하려면 스토리지 연결이 필요해.</p>
+  </section>
+  <section class="panel">
+   <div class="panel-head"><h2>📜 세션 메모</h2><button id="addNoteBtn">메모 추가</button></div>
+   <textarea id="sessionNotes" rows="3" placeholder="단서, NPC, 퀘스트 목표 등을 기록하세요."></textarea>
+  </section>
+ </main>
+ <aside class="right-col stack">
+  <section class="panel" id="dicePanel">
+   <div class="panel-head"><h2>🎲 판정 / 주사위</h2><span class="tag">EVER QUEST</span></div>
+   <div class="field"><label for="rollType">판정 유형</label><select id="rollType"><option value="trait">특기 판정 · 1d6</option><option value="stat">스탯 판정 · 3d6</option><option value="absolute">절대 판정 · 2d6</option><option value="attack">공격 판정 · 1d6</option><option value="evade">회피 판정 · 1d6</option><option value="break">파괴 판정 · 1d6</option></select></div>
+   <div class="twocol"><div class="field"><label for="targetNumber">목표치</label><input id="targetNumber" type="number" value="4" min="1" max="99"></div><div class="field"><label for="rollModifier">보정치</label><input id="rollModifier" type="number" value="0" min="-20" max="20"></div></div>
+   <button class="primary" id="rollBtn" style="width:100%;padding:12px">주사위 굴리기</button>
+   <div class="divider"></div><div class="dice-result" id="diceResult"><div class="muted small">마지막 판정</div><div class="dice-number">—</div><div class="small">주사위를 굴리면 결과가 여기에 표시됩니다.</div></div>
+   <div class="divider"></div><h3>빠른 굴림</h3><div class="actions"><button data-dice="1">1d6</button><button data-dice="2">2d6</button><button data-dice="3">3d6</button><button data-dice="20">1d20</button></div>
+   <p class="notice" style="margin:10px 0 0">노트의 판정 규칙을 바탕으로 한 초기 구현이야. 공격·회피·파괴의 세부 예외는 규칙 확인 후 조정할 수 있어.</p>
+  </section>
+  <section class="panel" id="chatPanel">
+   <div class="panel-head"><h2>💬 세션 채팅</h2><button id="clearChatBtn" class="ghost">기록 지우기</button></div>
+   <div class="log" id="chatLog" aria-live="polite"></div>
+   <form id="chatForm" class="chat-compose"><input id="chatInput" maxlength="500" placeholder="메시지를 입력하세요…" autocomplete="off"><button class="primary" type="submit">전송</button></form>
+   <p class="notice" style="margin:9px 0 0">현재 채팅은 이 브라우저 안에서만 작동하는 시제품입니다.</p>
+  </section>
+ </aside>
+</div>
+<div class="footer">EVER QUEST · Prototype v0.1 · GitHub Pages ready · 멀티플레이는 Supabase 연결이 필요합니다.</div>
+</div>
+<div class="modal-back" id="modalBack"><div class="modal"><h2 id="modalTitle">방 설정</h2><div id="modalBody"></div><div class="modal-actions"><button id="modalCancel">취소</button><button class="primary" id="modalConfirm">적용</button></div></div></div>
+<div class="toast" id="toast"></div>
+<script>
+const CLASSES={
+ '전사':{hp:14,trait:'근접 전투, 방어와 돌파'},
+ '궁수':{hp:10,trait:'사격, 정찰'},
+ '마법사':{hp:8,trait:'마법, 원거리 공격'},
+ '사제':{hp:10,trait:'회복, 지원'},
+ '도적':{hp:10,trait:'잠입, 함정 해제'},
+ '성기사':{hp:12,trait:'방어, 의지'},
+ '창기병':{hp:10,trait:'위협, 기동'},
+ '대장장이':{hp:10,trait:'제작, 장비 관리'}
+};
+const $=id=>document.getElementById(id);
+let state={chars:[{id:1,name:'전사',className:'전사',hp:14,maxHp:14,trait:CLASSES['전사'].trait}],selected:1,chat:[],tokens:[],scene:'잊혀진 왕국의 입구',notes:'',room:'LOCAL',mapData:null};
+let nextId=2, tokenId=1;
+function toast(msg){const t=$('toast');t.textContent=msg;t.style.display='block';clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.style.display='none',2300)}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function selected(){return state.chars.find(c=>c.id===state.selected)||state.chars[0]}
+function renderChars(){
+ $('characterList').innerHTML=state.chars.map(c=>`<div class="char-card" style="${c.id===state.selected?'border-color:var(--gold)':''}"><div class="char-top"><span class="char-name">${esc(c.name)}</span><span class="tag">${esc(c.className)}</span></div><div class="meter hp"><span style="width:${Math.max(0,Math.min(100,c.hp/c.maxHp*100))}%"></span></div><div class="meter-row"><span>HP</span><span>${c.hp} / ${c.maxHp}</span></div><div class="actions" style="margin-top:8px"><button data-select="${c.id}">선택</button><button data-hp="${c.id}" data-delta="-1">HP −1</button><button data-hp="${c.id}" data-delta="1">HP +1</button></div></div>`).join('');
+ $('charSelect').innerHTML=state.chars.map(c=>`<option value="${c.id}" ${c.id===state.selected?'selected':''}>${esc(c.name)} (${esc(c.className)})</option>`).join('');
+ const c=selected();if(c){$('charName').value=c.name;$('charClass').value=c.className;$('charHP').value=c.hp;$('charMaxHP').value=c.maxHp;$('charTrait').value=c.trait}
+}
+function addMessage(text,type='normal',who='시스템'){
+ state.chat.push({text,type,who,time:new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})});
+ state.chat=state.chat.slice(-200);renderChat();
+}
+function renderChat(){ $('chatLog').innerHTML=state.chat.map(m=>`<div class="message ${esc(m.type)}"><div class="meta"><span>${esc(m.who)}</span><span>${esc(m.time)}</span></div><div>${esc(m.text)}</div></div>`).join('');$('chatLog').scrollTop=$('chatLog').scrollHeight}
+function renderTokens(){
+ const board=$('mapBoard');board.querySelectorAll('.token').forEach(n=>n.remove());
+ $('mapEmpty').style.display=state.tokens.length?'none':'grid';
+ state.tokens.forEach(t=>{const el=document.createElement('div');el.className='token';el.style.left=t.x+'%';el.style.top=t.y+'%';el.textContent=t.icon;const sm=document.createElement('small');sm.textContent=t.name;el.appendChild(sm);el.title=t.name+' · 드래그 이동';el.draggable=true;el.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',String(t.id))});el.addEventListener('click',()=>{if(confirm(t.name+' 토큰을 삭제할까요?')){state.tokens=state.tokens.filter(x=>x.id!==t.id);renderTokens()}});board.appendChild(el)});
+}
+function roll(n, label, target=null, modifier=0){
+ const vals=Array.from({length:n},()=>Math.floor(Math.random()*6)+1),sum=vals.reduce((a,b)=>a+b,0),total=sum+Number(modifier||0);
+ let result='주사위 결과';if(target!==null)result=total>=Number(target)?'성공':'실패';
+ if(label==='공격 판정'){result=vals[0]>=4?'공격 성공':'공격 실패'}
+ if(label==='회피 판정'){result=vals[0]>=4?'회피 성공':'회피 실패'}
+ if(label==='파괴 판정'){result=vals[0]>=5?'파괴 성공 · 피해 1':'파괴 실패'}
+ $('diceResult').innerHTML=`<div class="muted small">${esc(label)}</div><div class="dice-number">${vals.join(' + ')}${modifier?` ${modifier>0?'+':''}${modifier}`:''} = ${total}</div><div><strong>${esc(result)}</strong></div><div class="small muted">목표치: ${target===null?'없음':target} · ${new Date().toLocaleTimeString('ko-KR')}</div>`;
+ addMessage(`${selected()?.name||'플레이어'}: ${label} → [${vals.join(', ')}]${modifier?` 보정 ${modifier>0?'+':''}${modifier}`:''} = ${total} · ${result}`,'roll');
+}
+function saveState(){state.scene=$('sceneName').value;state.notes=$('sessionNotes').value;try{localStorage.setItem('everQuestPrototype',JSON.stringify(state));toast('이 기기에 저장했어.')}catch(e){toast('저장에 실패했어. 이미지 용량을 줄여 봐.')}} 
+function loadState(){try{const s=JSON.parse(localStorage.getItem('everQuestPrototype')||'null');if(s){state={...state,...s};nextId=Math.max(2,...state.chars.map(c=>c.id+1));tokenId=Math.max(1,...state.tokens.map(t=>t.id+1));}}catch(e){}}
+function openModal(title,body,onConfirm){$('modalTitle').textContent=title;$('modalBody').innerHTML=body;$('modalBack').style.display='grid';$('modalConfirm').onclick=()=>{onConfirm();$('modalBack').style.display='none'};$('modalCancel').onclick=()=>$('modalBack').style.display='none'}
+$('addCharBtn').onclick=()=>{const id=nextId++;state.chars.push({id,name:'새 캐릭터',className:'전사',hp:14,maxHp:14,trait:CLASSES['전사'].trait});state.selected=id;renderChars();toast('캐릭터를 추가했어.')};
+$('charSelect').onchange=e=>{state.selected=Number(e.target.value);renderChars()};
+$('characterList').onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.select){state.selected=Number(b.dataset.select);renderChars()}if(b.dataset.hp){const c=state.chars.find(x=>x.id===Number(b.dataset.hp));c.hp=Math.max(0,Math.min(c.maxHp,c.hp+Number(b.dataset.delta)));renderChars();addMessage(`${c.name} HP: ${c.hp}/${c.maxHp}`,'system') }};
+$('charClass').onchange=e=>{const c=selected(),v=e.target.value;if(c&&c.className!==v){c.className=v;c.maxHp=CLASSES[v].hp;c.hp=Math.min(c.hp,c.maxHp);c.trait=CLASSES[v].trait;$('charHP').value=c.hp;$('charMaxHP').value=c.maxHp;$('charTrait').value=c.trait}};
+$('updateCharBtn').onclick=()=>{const c=selected();if(!c)return;c.name=$('charName').value.trim()||'이름 없는 캐릭터';c.className=$('charClass').value;c.maxHp=Math.max(1,Number($('charMaxHP').value)||1);c.hp=Math.max(0,Math.min(c.maxHp,Number($('charHP').value)||0));c.trait=$('charTrait').value;renderChars();toast('캐릭터를 적용했어.');};
+$('rollBtn').onclick=()=>{const type=$('rollType').value,target=Number($('targetNumber').value)||4,mod=Number($('rollModifier').value)||0;const map={trait:[1,'특기 판정'],stat:[3,'스탯 판정'],absolute:[2,'절대 판정'],attack:[1,'공격 판정'],evade:[1,'회피 판정'],break:[1,'파괴 판정']};const [n,label]=map[type];roll(n,label,target,mod)};
+document.querySelectorAll('[data-dice]').forEach(b=>b.onclick=()=>roll(Number(b.dataset.dice),`빠른 굴림 · ${b.dataset.dice===20?'1d20':b.dataset.dice+'d6'}`));
+$('chatForm').onsubmit=e=>{e.preventDefault();const v=$('chatInput').value.trim();if(!v)return;addMessage(v,'normal',selected()?.name||'플레이어');$('chatInput').value=''};
+$('clearChatBtn').onclick=()=>{if(confirm('채팅 기록을 지울까요?')){state.chat=[];renderChat()}};
+$('uploadMapBtn').onclick=()=>$('mapInput').click();
+$('mapInput').onchange=e=>{const f=e.target.files[0];if(!f)return;if(f.size>3*1024*1024){toast('이미지는 3MB 이하로 선택해 줘.');return}const r=new FileReader();r.onload=()=>{state.mapData=r.result;$('mapBoard').style.backgroundImage=`url("${r.result}")`;$('mapEmpty').style.display=state.tokens.length?'none':'grid';toast('배경을 적용했어. 저장 버튼을 눌러 줘.')};r.readAsDataURL(f)};
+$('addTokenBtn').onclick=()=>openModal('토큰 추가',`<div class="field"><label>이름</label><input id="tokenName" value="${esc(selected()?.name||'모험가')}"></div><div class="field"><label>아이콘 (이모지 1개 권장)</label><input id="tokenIcon" value="🧙" maxlength="8"></div>`,()=>{state.tokens.push({id:tokenId++,name:$('tokenName').value.trim()||'토큰',icon:$('tokenIcon').value.trim()||'●',x:25+Math.random()*50,y:25+Math.random()*50});renderTokens();toast('토큰을 추가했어.')});
+$('mapBoard').ondragover=e=>e.preventDefault();
+$('mapBoard').ondrop=e=>{e.preventDefault();const id=Number(e.dataTransfer.getData('text/plain')),t=state.tokens.find(x=>x.id===id);if(!t)return;const r=$('mapBoard').getBoundingClientRect();t.x=Math.max(4,Math.min(96,(e.clientX-r.left)/r.width*100));t.y=Math.max(7,Math.min(90,(e.clientY-r.top)/r.height*100));renderTokens()};
+$('clearTokensBtn').onclick=()=>{if(confirm('모든 토큰을 지울까요?')){state.tokens=[];renderTokens()}};
+$('sceneBtn').onclick=()=>openModal('장면 전환',`<div class="field"><label>새 장면 이름</label><input id="newScene" value="${esc($('sceneName').value)}"></div>`,()=>{$('sceneName').value=$('newScene').value;addMessage('장면 전환: '+$('sceneName').value,'system');toast('장면을 변경했어.')});
+$('addNoteBtn').onclick=()=>{$('sessionNotes').value+=($('sessionNotes').value?'\n':'')+'• ';$('sessionNotes').focus()};
+$('saveBtn').onclick=saveState;
+$('roomBtn').onclick=()=>openModal('방 설정',`<p class="notice">현재 버전은 브라우저 안에서 작동하는 시제품이야. 이 화면만으로는 다른 사람과 실시간으로 연결되지 않아.</p><div class="field"><label>세션 이름</label><input id="roomName" value="${esc(state.room==='LOCAL'?'나의 에버 퀘스트 세션':state.room)}"></div><div class="field"><label>참가자 표시 이름</label><input id="playerName" value="${esc(localStorage.getItem('everQuestPlayerName')||'플레이어')}"></div>`,()=>{state.room=$('roomName').value.trim()||'나의 에버 퀘스트 세션';localStorage.setItem('everQuestPlayerName',$('playerName').value.trim()||'플레이어');$('connectionText').textContent='로컬 테스트 모드';addMessage('세션 설정: '+state.room,'system');toast('설정을 적용했어.')});
+$('modalBack').addEventListener('click',e=>{if(e.target===$('modalBack'))$('modalBack').style.display='none'});
+document.querySelectorAll('[data-scroll]').forEach(b=>b.onclick=()=>document.getElementById(b.dataset.scroll).scrollIntoView({behavior:'smooth',block:'start'}));
+loadState();$('sceneName').value=state.scene||'잊혀진 왕국의 입구';$('sessionNotes').value=state.notes||'';if(state.mapData)$('mapBoard').style.backgroundImage=`url("${state.mapData}")`;renderChars();renderTokens();renderChat();if(!state.chat.length)addMessage('에버 퀘스트 세션에 오신 것을 환영합니다. 먼저 캐릭터를 만들고 주사위를 굴려 보세요.','system');$('connectionText').textContent='로컬 테스트 모드';
+</script>
+</body>
+</html>
