@@ -80,20 +80,21 @@ body{background:#15191e;color:var(--text);font:14px/1.5 system-ui,sans-serif}.ap
    <p class="notice" style="margin:10px 0 0">공격에는 특기/명중 보정을 적용하지 않습니다. 자연 6 피해 4, 그 외 명중 피해 2. 대상을 선택하면 피해가 적용됩니다. 방어·카드 반응 후 피해를 확정하세요.</p>
   </section>
 <section class="panel" id="combatPanel">
-<h2>전투 / 카드</h2><p id="combatStatus" class="notice"></p><p id="effectStatus" class="notice"></p>
+<h2>전투 / 카드 <small>공식 규칙 엔진 · traits-cards-r2</small></h2><p id="actionContext" role="status" style="font-weight:700;white-space:pre-line"></p><p id="combatStatus" class="notice"></p><p id="effectStatus" class="notice"></p>
+<h3>최근 처리 결과</h3><p id="actionResult" role="status" style="white-space:pre-line">아직 실행한 판정이 없습니다.</p><details id="recentResults"><summary>최근 판정 / 카드 효과 기록</summary><ol id="ruleLog" aria-label="최근 판정 및 카드 결과"></ol></details>
 <label for="targetChar">효과 대상 · 공격 / 치유 / 도발 / 제련</label><select id="targetChar"></select>
 <fieldset id="mageTargets" hidden><legend>마법 대상 · 적만 직접 선택</legend><p class="notice">팀 정보가 없습니다. 아군을 제외하고 적을 선택하세요. 위의 집중 피해 대상도 포함해야 합니다.</p><div id="enemyChoices"></div></fieldset>
 <p id="abilityRuling" class="notice"></p>
 <p id="turnStatus" class="notice"></p><div class="actions"><button id="startTurn">GM · 턴 시작</button><button id="endTurn">턴 종료</button><button id="useAbility">고유기 사용</button></div>
 <p id="damageStatus" role="status"></p><div class="actions"><button id="passDamage">선택 캐릭터 · 방어 안 함 / 피해 확인</button><button id="settleDamage">모든 대상 반응 후 · 피해 확정</button></div>
-<details><summary>돌발 효과 카드 · 손패 최대 2</summary><p id="deckStatus" class="notice"></p><p id="handStatus"></p>
-<label for="cardSlot">사용 / 반환할 카드</label><select id="cardSlot"></select><div class="actions"><button id="useCard">선택 카드 사용</button><button id="drawCard">받기 · 가득 차면 선택 카드 반환</button></div>
-<label for="crossroadsMode">선택의 기로</label><select id="crossroadsMode"><option value="self">자신에게 향한 피해 ≥4 차단</option><option value="others">자신 제외 모두의 이번 피해 차단</option></select>
-<label for="parityChoice">강심장 · 굴리기 전 선택</label><select id="parityChoice"><option value="odd">홀수</option><option value="even">짝수</option></select>
-<label for="breathChoice">호흡 · 이번 턴 쉬고 다음 공격</label><select id="breathChoice"><option value="damage">피해 +2</option><option value="hit">명중 +1</option></select>
+<details id="cardsPanel" open><summary>공식 효과 카드 · 공유 유한 덱 20장 · 손패 최대 2</summary><p id="deckStatus" class="notice"></p><p id="handStatus"></p>
+<label for="cardSlot">사용 / 반환할 카드</label><select id="cardSlot"></select><p id="cardDescription" style="white-space:pre-line"></p><p id="cardAvailability" role="status"></p><div class="actions"><button id="useCard">선택 카드 사용</button><button id="drawCard">받기 · 가득 차면 선택 카드 반환</button></div>
+<div id="crossroadsControls" hidden><label for="crossroadsMode">선택의 기로 · 차단 대상</label><select id="crossroadsMode"><option value="self">자신에게 향한 피해 ≥4 차단</option><option value="others">자신 제외 모두의 이번 피해 차단</option></select></div>
+<div id="parityControls" hidden><label for="parityChoice">강심장 · 굴리기 전 선택</label><select id="parityChoice"><option value="odd">홀수</option><option value="even">짝수</option></select></div>
+<div id="breathControls" hidden><label for="breathChoice">호흡 · 이번 턴 쉬고 다음 공격</label><select id="breathChoice"><option value="damage">피해 +2</option><option value="hit">명중 +1</option></select></div>
 <div id="resolveChoice" hidden><button id="keepOld">기존 결과</button><button id="keepNew">새 결과</button></div>
-<label for="resurrectionCount">행동불능 시 부활 · 소비 카드 수</label><select id="resurrectionCount"><option value="1">선택 1장 · d6 ×1</option><option value="2">전체 2장 · d6 ×2</option></select><button id="resurrect">카드 소비 후 부활</button></details>
-<details><summary>GM 판정 / 합의한 규칙</summary><p class="notice">로컬은 GM 모드입니다. 온라인은 방장만 변경합니다. 판정 사유는 기록됩니다.</p>
+<div id="resurrectionControls" hidden><label for="resurrectionCount">행동불능 시 부활 · 소비 카드 수</label><select id="resurrectionCount"><option value="1">선택 1장 · d6 ×1</option><option value="2">전체 2장 · d6 ×2</option></select><button id="resurrect">카드 소비 후 부활</button></div></details>
+<details id="gmRules"><summary>GM 판정 / 합의한 규칙</summary><p class="notice">로컬은 GM 모드입니다. 온라인은 방장만 변경합니다. 판정 사유는 기록됩니다.</p>
 <label for="rulingReason">GM 사유 · 특수 6 / HP / 추가 턴 / 방어 생략 / 쉴드 중첩</label><input id="rulingReason" maxlength="200" placeholder="구체적인 합의 내용 / 처리한 효과"><button id="grantDraw">선택 캐릭터 · 특수 6 카드 1장 인정</button>
 <button id="grantTurn">GM · 도발한 전사에게 추가 턴 1회 부여</button><p class="notice">원문의 (턴 +1)은 GM 합의 후 수동 부여합니다. 순서를 자동 생성하지 않으며, 해당 전사의 다음 턴 시작에 1회 사용합니다.</p>
 <label for="hpAmount">대상 HP 조정량 · 음수는 피해</label><input id="hpAmount" type="number" min="-999" max="999" value="-1"><button id="applyHP">대상 HP 적용</button>
@@ -133,14 +134,38 @@ body{background:#15191e;color:var(--text);font:14px/1.5 system-ui,sans-serif}.ap
 <div class="toast" id="toast"></div>
 <script>
 const CLASSES={
- '전사':{hp:14,trait:'근접전, 호방함'},
- '궁수':{hp:10,trait:'사격, 정찰'},
- '마법사':{hp:8,trait:'마법지식, 발화'},
- '사제':{hp:10,trait:'설득, 지식'},
- '도적':{hp:10,trait:'잠입, 손재주'},
- '성기사':{hp:12,trait:'방어, 의지'},
- '창기병':{hp:11,trait:'위협, 지휘'},
- '대장장이':{hp:10,trait:'제련, 말재주'}
+ "전사": {
+  "hp": 14,
+  "trait": "근접전, 호방함"
+ },
+ "궁수": {
+  "hp": 10,
+  "trait": "사격, 정찰"
+ },
+ "마법사": {
+  "hp": 8,
+  "trait": "마법지식, 발화"
+ },
+ "사제": {
+  "hp": 10,
+  "trait": "설득, 지식"
+ },
+ "도적": {
+  "hp": 10,
+  "trait": "잠입, 손재주"
+ },
+ "성기사": {
+  "hp": 12,
+  "trait": "방어, 의지"
+ },
+ "창기병": {
+  "hp": 11,
+  "trait": "위협, 지휘"
+ },
+ "대장장이": {
+  "hp": 10,
+  "trait": "제련, 말재주"
+ }
 };
 const $=id=>document.getElementById(id);
 let state={chars:[{id:1,name:'전사',className:'전사',hp:14,maxHp:14,trait:CLASSES['전사'].trait}],selected:1,chat:[],tokens:[],scene:'잊혀진 왕국의 입구',notes:'',room:'LOCAL',mapData:null};
@@ -214,29 +239,6 @@ $('modalBack').addEventListener('click',e=>{if(e.target===$('modalBack'))$('moda
 document.querySelectorAll('[data-scroll]').forEach(b=>b.onclick=()=>document.getElementById(b.dataset.scroll).scrollIntoView({behavior:'smooth',block:'start'}));
 loadState();$('sceneName').value=state.scene||'잊혀진 왕국의 입구';$('sessionNotes').value=state.notes||'';if(state.mapData)$('mapBoard').style.backgroundImage=`url("${state.mapData}")`;renderChars();renderTokens();renderChat();if(!state.chat.length)addMessage('에버 퀘스트 세션에 오신 것을 환영합니다. 먼저 캐릭터를 만들고 주사위를 굴려 보세요.','system');$('connectionText').textContent='로컬 테스트 모드';
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script id="eq-engine">
 // Shared local rules contract. Online authority is the matching PostgreSQL reducer.
 (function(root){
@@ -247,7 +249,7 @@ loadState();$('sceneName').value=state.scene||'잊혀진 왕국의 입구';$('se
   '도적':{hp:10,trait:'잠입, 손재주'},'성기사':{hp:12,trait:'방어, 의지'},
   '창기병':{hp:11,trait:'위협, 지휘'},'대장장이':{hp:10,trait:'제련, 말재주'}
  };
- const OLD={'전사':'근접 전투, 방어와 돌파','마법사':'마법, 원거리 공격','사제':'회복, 지원','도적':'잠입, 함정 해제','창기병':'위협, 기동','대장장이':'제작, 장비 관리'};
+ const OLD={'전사':'근접 전투, 방어와 돌파','궁수':'사격, 정찰','마법사':'마법, 원거리 공격','사제':'회복, 지원','도적':'잠입, 함정 해제','성기사':'방어, 의지','창기병':'위협, 기동','대장장이':'제작, 장비 관리'};
  const CARDS=['각오','분노','선택의 기로','소형마나쉴드','회상','강심장','호흡','버티기','초재생'];
  const DECK=[...Array(12).fill('각오'),...CARDS.slice(1)];
  class RuleError extends Error {constructor(code){super(code);this.name='RuleError';this.code=code;}}
@@ -272,7 +274,10 @@ loadState();$('sceneName').value=state.scene||'잊혀진 왕국의 입구';$('se
   for(const card of CARDS)if(all.filter(x=>x===card).length!==(card==='각오'?12:1))return false;
   return g.config&&['single','any6','manual'].includes(g.config.special)&&['manual','healed','combat'].includes(g.config.archer)&&['manual','total2','extra2'].includes(g.config.mage)&&['manual','combat'].includes(g.config.smith);
  }
- function migrateTrait(cls,trait){return trait===OLD[cls]?CLASSES[cls].trait:trait;}
+ function migrateTrait(cls,trait){return Object.hasOwn(OLD,cls)&&trait===OLD[cls]?CLASSES[cls].trait:trait;}
+ function isStockTrait(trait){return Object.values(CLASSES).some(c=>c.trait===trait)||Object.values(OLD).includes(trait);}
+ // Trait-only normalization: never redeal hands or reset HP, turns or pending damage.
+ function normalizeTraits(g){for(const c of g.chars)c.trait=migrateTrait(c.className,c.trait);return g;}
  function migrate(chars){const g=create();for(const raw of chars){
   check(CLASSES[raw.className],'class');const c={...raw,owner_id:raw.owner_id||'local',trait:migrateTrait(raw.className,raw.trait),rules:rules()};
   // Old provisional hands are archived in the UI state, never trusted as a fresh deck.
@@ -284,7 +289,7 @@ loadState();$('sceneName').value=state.scene||'잊혀진 왕국의 입구';$('se
   check(a&&Object.hasOwn(FIELDS,a.type),'command');
   check(Object.keys(a).every(k=>k==='type'||FIELDS[a.type].includes(k)),'unexpected command field');
   check(user&&typeof user.uid==='string'&&['gm','member'].includes(user.role),'auth');
-  const g=structuredClone(input);let result={type:a.type};
+  const g=normalizeTraits(structuredClone(input));let result={type:a.type};
   const gm=()=>check(user.role==='gm','GM required');
   const find=id=>{const c=g.chars.find(x=>x.id===id);check(c,'character');return c;};
   const own=c=>check(user.role==='gm'||c.owner_id===user.uid,'owner required');
@@ -379,7 +384,7 @@ loadState();$('sceneName').value=state.scene||'잊혀진 왕국의 입구';$('se
   }
   g.version++;return {game:g,result};
  }
- const API={CLASSES,CARDS,DECK,RuleError,combat,rules,create,isGame,migrate,migrateTrait,command};
+ const API={CLASSES,CARDS,DECK,RuleError,combat,rules,create,isGame,migrate,migrateTrait,isStockTrait,normalizeTraits,command};
  if(typeof module!=='undefined'&&module.exports)module.exports=API;else root.EQEngine=API;
 })(globalThis);
 
@@ -424,7 +429,7 @@ async function eqFetch(){
   if(state.game&&game&&game.version<state.game.version){eq.again=true;return;}
   eq.role=result[0].data.role;const scene=result[1].data;eq.sceneVersion=scene.version;
   if(!eq.dirty){state.scene=scene.scene;state.notes=scene.notes;$('sceneName').value=scene.scene;$('sessionNotes').value=scene.notes;eq.draftVersion=scene.version;}
-  if(!state.game||!game||game.version>=state.game.version){state.game=game||EQEngine.create();state.chars=state.game.chars;}
+  if(!state.game||!game||game.version>=state.game.version){state.game=EQEngine.normalizeTraits(game||EQEngine.create());state.chars=state.game.chars;}
   state.tokens=result[3].data;state.chat=result[4].data.reverse().map(m=>({...m,time:new Date(m.created_at).toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})}));
   if(!state.chars.some(c=>c.id===state.selected))state.selected=state.chars[0]?.id;
   renderChars();renderTokens();renderChat();
@@ -447,7 +452,7 @@ async function eqCommand(command){
  const response=await eq.client.rpc('eq_command',{room,expected,request_id:request,command});
  if(epoch!==eq.epoch)return;if(response.error){await eqRefresh();throw response.error;}
  const output=response.data;
- if(!state.game||output.game.version>=state.game.version){state.game=output.game;state.chars=state.game.chars;}
+ if(!state.game||output.game.version>=state.game.version){state.game=EQEngine.normalizeTraits(output.game);state.chars=state.game.chars;}
  if(command.type==='profile')eq.charDraft=null;
  await eqRefresh();if(epoch!==eq.epoch)return;return output;
 }
@@ -483,16 +488,47 @@ const LABELS={action:'행동',trait:'특기 행동',absolute:'절대 판정',att
 const ERRORS={'GM required':'GM만 사용할 수 있습니다.','owner required':'본인 캐릭터만 조작할 수 있습니다.','resolve incoming damage first':'현재 피해의 방어·카드 반응 후 피해를 확정하세요.','skill roll only':'각오는 특기가 적용된 행동 판정 직후에만 사용합니다.','no earned draw':'받을 카드가 없습니다. 특수 6 또는 GM 판정이 필요합니다.','return one':'돌려줄 카드 한 장을 선택하세요.','deck empty':'공유 덱이 비었습니다.','evade exhausted':'이번 전투의 회피를 모두 사용했습니다.','parry exhausted':'이번 전투의 쳐내기를 사용했습니다.','configure mage target damage':'먼저 GM이 마법사 지정 대상 피해 해석을 선택하세요.','resurrection requires HP 0':'행동불능(HP 0)일 때 부활할 수 있습니다.','turn skipped: end turn first':'호흡으로 턴을 쉽니다. 턴 종료 후 다음 행동을 하세요.','incapacitated':'행동불능 상태입니다. 카드를 소비해 부활하세요.','last roll must fumble':'직전 펌블에만 버티기를 사용합니다.','use before roll: end/start turn first':'초재생은 판정 전에 사용하세요. 다음 턴에 사용할 수 있습니다.'};
 Object.assign(LABELS,{pass:'방어 안 함 / 피해 확인',grantTurn:'GM 추가 턴 부여'});
 Object.assign(ERRORS,{'enemy targets required':'적 목록과 집중 피해 대상을 확인하세요.','parry target':'쳐내기의 반격 대상을 지정하세요.','defender acknowledgement required':'모든 피해 대상의 반응이 필요합니다.','ruling reason required':'GM 판정 사유를 입력하세요.','manual shield ruling required':'이 직업의 쉴드 중첩은 GM 수동 판정이 필요합니다.','used warrior taunt required':'도발을 사용한 전사에게만 추가 턴을 부여할 수 있습니다.'});
+const CARD_HELP={
+ '각오':['특기가 적용된 행동 판정 직후. 공격·절대 판정에는 사용 불가.','1d6을 다시 굴린 뒤 기존 결과와 새 결과 중 하나를 선택합니다.'],
+ '분노':['피해 반응 대기가 아닐 때, 자신이 아닌 대상을 선택.','대상의 모든 판정 −1. 대상의 다음 턴 종료까지 지속하며 자연 주사위 눈은 바뀌지 않습니다.'],
+ '선택의 기로':['이번 피해가 대기 중일 때. 이미 반응한 대상은 제외.','자신에게 향한 피해 4 이상을 차단하거나, 자신을 제외한 모두의 이번 피해를 한 번 차단합니다. 아래 차단 대상을 선택하세요.'],
+ '소형마나쉴드':['피해 반응 대기가 아니며 아직 쉴드를 준비하지 않았을 때.','다음 고유기 효과를 1회 중첩하고 소모됩니다. 치유 2→4, 선택한 적에게만 마법 피해 ×2, 대신 받기 감소 1→2. 도발·궁수·제련은 GM 수동 중첩 판정과 사유가 필요합니다.'],
+ '회상':['횟수가 제한된 고유기를 이미 사용한 뒤, 피해 반응 대기가 아닐 때.','사용한 고유기 기회 1회를 회복합니다. 궁수는 제외. 도적의 첫 공격 또는 창기병의 추가 회피 획득 기회도 복구합니다.'],
+ '강심장':['행동 가능한 자신의 턴 또는 자유 진행, HP가 1 이상이며 피해 반응 대기가 아닐 때.','홀수/짝수를 먼저 선택한 뒤 1d6. 맞으면 6으로 성공 처리, 틀리면 자신에게 피해 4. 후속 상황 효과는 GM 판정입니다.'],
+ '호흡':['행동 가능한 자신의 턴 또는 자유 진행, 피해 반응 대기가 아니며 호흡이 준비되지 않았을 때.','이번 턴을 쉬고 다음 공격의 피해 +2 또는 명중 +1을 준비합니다. 다음 공격은 성공/실패와 무관하게 효과를 소모합니다.'],
+ '버티기':['자신의 직전 판정이 펌블일 때. 방어 판정은 해당 피해가 아직 대기 중이어야 합니다.','적용된 펌블 자해를 취소하고 성공으로 바꿉니다. 공격 피해, 방어·반격을 반영하지만 이미 확정된 피해 반응은 되돌리지 않습니다.'],
+ '초재생':['자신의 판정 전에, HP가 1 이상인 행동 가능한 턴. 판정 후에는 턴 종료 후 사용.','1d6만큼 자신의 HP를 회복합니다. 최대 HP를 넘지 않습니다. HP 0은 이 카드 대신 아래 부활을 사용하세요.']
+};
+const ABILITY_NAMES={'전사':'도발','궁수':'정밀조준','마법사':'화염의 주문','사제':'치유','성기사':'대신 받기','도적':'첫 공격 (자동)','창기병':'추가 회피 획득 (자동)','대장장이':'제련'};
+function renderCardContext(){
+ const g=state.game,c=selected();if(!g)return;const r=rulesData(c),card=r.hand[Number($('cardSlot').value)],help=CARD_HELP[card],t=state.chars.find(x=>x.id===Number($('targetChar').value)),kind=$('rollType').value;
+ $('actionContext').textContent=`조작 캐릭터: ${c?c.name+' ('+c.className+') · HP '+c.hp+'/'+c.maxHp:'없음'}\n효과 대상: ${t?t.name+' ('+t.className+')':'없음'} · 선택 판정: ${LABELS[kind]||kind}\n직전 판정: ${r.last?outcomeText(r.last):'없음'} · ${g.damage?'피해 반응 대기':'피해 대기 없음'}`;
+ for(const [id,name] of [['crossroadsControls','선택의 기로'],['parityControls','강심장'],['breathControls','호흡']])$(id).hidden=card!==name;
+ $('resurrectionControls').hidden=!c||c.hp!==0;
+ $('cardDescription').textContent=help?`${card}\n사용 시점: ${help[0]}\n효과: ${help[1]}\n사용 시 선택한 카드 1장을 소비합니다.`:'손패가 없습니다. 특수 6 등으로 획득한 카드만 받을 수 있습니다.';
+ $('useCard').textContent=card?`${card} 사용 · 1장 소비`:'사용할 카드 없음';
+ $('drawCard').textContent=r.hand.length===2?`선택 카드 ${card||''} 반환 후 1장 받기 (권리 ${r.draws})`:`공유 덱에서 1장 받기 (권리 ${r.draws})`;
+ $('drawCard').disabled=$('drawCard').disabled||r.draws===0;
+ $('useCard').disabled=$('useCard').disabled||!card;
+ $('resurrect').textContent=`${c?.name||'선택 캐릭터'} · 카드 ${$('resurrectionCount').value}장 소비 후 부활`;
+ $('useAbility').textContent=c?`${c.name} · ${ABILITY_NAMES[c.className]}${['도적','창기병'].includes(c.className)?'':' 사용'}`:'고유기 사용';
+ $('rollBtn').textContent=`${c?.name||'선택 캐릭터'} · ${LABELS[kind]||kind} 굴리기`;
+ if(help){const a={type:'card',actor:c.id,slot:Number($('cardSlot').value)};if(card==='분노')a.target=t?.id;if(card==='선택의 기로')a.mode=$('crossroadsMode').value;if(card==='강심장')a.parity=$('parityChoice').value;if(card==='호흡')a.mode=$('breathChoice').value;
+  try{EQEngine.command(g,a,{uid:eq.active?eq.uid:'local',role:eq.active?eq.role:'gm'},()=>1);$('cardAvailability').textContent='현재 조건에서 사용 가능 · 온라인에서는 서버가 최종 검증합니다.';}
+  catch(e){$('cardAvailability').textContent='현재 사용 조건 확인: '+(ERRORS[e.message]||e.message);}
+ }else $('cardAvailability').textContent='';
+ $('ruleLog').innerHTML=state.chat.filter(m=>m.type==='roll').slice(-5).reverse().map(m=>`<li>${esc(m.who||'시스템')}: ${esc(m.text)}</li>`).join('');
+}
 function rulesData(c){return c?.rules||EQEngine.rules();}
 function outcomeText(o){return `${LABELS[o.kind||o.type]||o.type} [${(o.values||[]).join(' + ')}]${typeof o.success==='boolean'?' · '+(o.success?'성공':'실패'):''}`;}
-function showRule(text){$('diceResult').textContent=text;}
+function showRule(text){$('diceResult').textContent=text;$('actionResult').textContent=text;}
 function ruleSummary(r){let s=r.kind?outcomeText(r):LABELS[r.type]||r.type;if(r.card)s+=' · '+r.card;if(typeof r.success==='boolean'&&!r.kind)s+=' · '+(r.success?'성공':'실패');if(r.effective===6)s+=' · 6으로 판정';if(typeof r.damage==='number')s+=' · 피해 '+r.damage;if(r.riposte)s+=` · 반격 1 (적용 ${r.riposte.applied}) → ${state.chars.find(c=>c.id===r.riposte.target)?.name||r.riposte.target}`;if(r.selfDamage)s+=' · 자해 '+r.selfDamage;if(r.heal!==undefined)s+=' · 회복 '+r.heal;if(r.values&&!r.kind)s+=' ['+r.values.join(' + ')+']';if(r.reason)s+=' · '+r.reason;return s;}
-function localGame(){if(state.game&&!EQEngine.isGame(state.game)){localStorage.setItem('everQuestRecovery',JSON.stringify(state));state.game=null;toast('손상된 규칙 저장을 별도 보관하고 캐릭터에서 복구했습니다.');}if(!state.game){state.legacyRules=state.chars.map(c=>({id:c.id,trait:c.trait,rules:c.rules||null}));state.game=EQEngine.migrate(state.chars);}state.chars=state.game.chars;return state.game;}
+function localGame(){if(state.game&&!EQEngine.isGame(state.game)){localStorage.setItem('everQuestRecovery',JSON.stringify(state));state.game=null;toast('손상된 규칙 저장을 별도 보관하고 캐릭터에서 복구했습니다.');}if(!state.game){state.legacyRules=state.chars.map(c=>({id:c.id,trait:c.trait,rules:c.rules||null}));state.game=EQEngine.migrate(state.chars);}state.chars=EQEngine.normalizeTraits(state.game).chars;return state.game;}
 async function sendRule(command){
  if(rulesBusy)return;rulesBusy=true;
  try{let output;if(eq.active){if(!eqAllowed())return;output=await eqCommand(command);if(!output)return;}else{output=EQEngine.command(localGame(),command,{uid:'local',role:'gm'});state.game=output.game;state.chars=state.game.chars;}
-  if(output.result.actor)state.selected=output.result.actor;renderChars();showRule(ruleSummary(output.result));
-  if(!eq.active){addMessage(ruleSummary(output.result),'roll',selected()?.name||'규칙 기록');saveState();}
+  if(output.result.actor)state.selected=output.result.actor;renderChars();const resultText=`${selected()?.name||'시스템'} · ${ruleSummary(output.result)}${command.target?' → '+(state.chars.find(c=>c.id===command.target)?.name||command.target):''}`;showRule(resultText);
+  if(!eq.active){addMessage(resultText,'roll',selected()?.name||'규칙 기록');saveState();}
  }catch(e){toast(ERRORS[e.message]||e.message);showRule('처리하지 않음 · '+(ERRORS[e.message]||e.message));}
  finally{rulesBusy=false;renderRules();}
 }
@@ -517,6 +553,7 @@ function renderRules(){
  for(const id of ['rollBtn','useAbility','useCard','drawCard','resurrect','endTurn','keepOld','keepNew','endSmith','endArcher'])$(id).disabled=!can;
  for(const id of ['resetCombat','resetScenario','startTurn','grantDraw','grantTurn','applyConfig','applyHP'])$(id).disabled=!gm||(eq.active&&!eq.ready);
  if(g)for(const key of ['special','archer','mage','smith'])$('config_'+key).value=g.config[key];
+ renderCardContext();
  $('turnStatus').textContent=g?.active?'현재 턴: '+(state.chars.find(x=>x.id===g.active)?.name||'—'):'자유 진행 · GM이 턴을 지정할 수 있습니다.';
 }
 const priorRender=renderChars;renderChars=function(){if(!eq.active)localGame();priorRender();renderRules();};
@@ -553,10 +590,12 @@ $('applyConfig').onclick=async()=>{const desired=Object.fromEntries(['special','
 $('useCard').onclick=()=>{const slot=Number($('cardSlot').value),c=selected(),card=c?.rules.hand[slot],command={type:'card',actor:actor(),slot};if(card==='분노')command.target=target();if(card==='선택의 기로')command.mode=$('crossroadsMode').value;if(card==='강심장')command.parity=$('parityChoice').value;if(card==='호흡')command.mode=$('breathChoice').value;if(card==='버티기'&&c.className==='창기병'&&c.rules.shield&&!c.rules.combat.extraGranted){if(!confirm('공격이 성공으로 바뀐 뒤 추가 회피 획득 판정이 성공하면 추가 회피 2회를 얻습니다. 동의합니까?'))return;command.duplicate='lancer-extra-evasion';}return sendRule(command);};
 for(const [id,choice] of [['keepOld','old'],['keepNew','next']])$(id).onclick=()=>sendRule({type:'choose',actor:actor(),choice});
 $('resurrect').onclick=()=>sendRule({type:'resurrect',actor:actor(),count:Number($('resurrectionCount').value),slot:Number($('cardSlot').value)});
+$('charClass').onchange=e=>{const spec=EQEngine.CLASSES[e.target.value];if(!spec)return;$('charHP').value=Math.min(Number($('charHP').value)||0,spec.hp);$('charMaxHP').value=spec.hp;const draft=$('charTrait').value;if(draft===''||EQEngine.isStockTrait(draft))$('charTrait').value=spec.trait;};
 $('addCharBtn').onclick=()=>sendRule({type:'create',name:'새 캐릭터',className:'전사'});
 $('updateCharBtn').onclick=()=>sendRule({type:'profile',actor:actor(),name:$('charName').value.trim()||'모험가',trait:$('charTrait').value,className:$('charClass').value,maxHp:Number($('charMaxHP').value)});
 $('characterList').onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.select){eq.charDraft=null;state.selected=Number(b.dataset.select);renderChars();}if(b.dataset.hp){$('targetChar').value=b.dataset.hp;$('hpAmount').value=b.dataset.delta;$('rulingReason').focus();toast('GM 조정 사유를 입력한 후 HP 적용을 누르세요.');}};
 document.querySelectorAll('[data-dice]').forEach(b=>b.onclick=()=>sendRule({type:'quick',actor:actor(),count:Number(b.dataset.dice),sides:6}));
+for(const id of ['cardSlot','targetChar','crossroadsMode','parityChoice','breathChoice','resurrectionCount','rollType'])$(id).addEventListener('change',renderCardContext);
 renderChars();
 
 </script>
