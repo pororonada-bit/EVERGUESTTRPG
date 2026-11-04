@@ -23,6 +23,7 @@ input,select,textarea{background:#fbf1d9;color:#302719;border-color:#af9564;bord
 .chat-compose button{flex:none;white-space:nowrap;min-width:58px}.notice{font-size:12px;line-height:1.6}.mobile-tabs{position:sticky;top:0;z-index:5;background:#241c14;padding:6px 0} .mobile-tabs button{scroll-margin-top:70px}
 @media(max-width:760px){button,.actions button,#mapPanel .scene-tools button{min-height:44px}.scene-tools{display:grid;grid-template-columns:1fr 1fr}.notice{font-size:13px}input,select,textarea{font-size:16px}.panel{scroll-margin-top:70px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+#eq-online .twocol{display:grid;grid-template-columns:1fr 1fr;gap:16px}#eq-online label{display:block;margin-bottom:6px}#eq-online input{width:100%;margin-bottom:8px}#eq-online .actions{margin-top:12px}#eq-online .notice{line-height:1.6}#eqInvite{user-select:all}@media(max-width:760px){#eq-online .twocol{grid-template-columns:1fr}#eq-online button{min-height:44px}#eq-online .notice{font-size:13px}}
 </style>
 </head>
 <body>
@@ -32,6 +33,7 @@ input,select,textarea{background:#fbf1d9;color:#302719;border-color:#af9564;bord
  <div class="top-actions"><span class="status"><span class="dot"></span><span id="connectionText">로컬 테스트 모드</span></span><button class="ghost" id="roomBtn">방 설정</button><button class="primary" id="saveBtn">저장</button></div>
 </header>
 <div class="mobile-tabs"><button data-scroll="characters">캐릭터</button><button data-scroll="mapPanel">맵</button><button data-scroll="chatPanel">채팅</button><button data-scroll="dicePanel">주사위</button></div>
+<section class="panel" id="eq-online" style="margin-bottom:16px"><h2>⚔ 온라인 원정대</h2><p id="eqStatus" role="status">로컬 테스트 모드</p><div class="twocol"><div><label for="eqRoomName">새 방 이름</label><input id="eqRoomName" maxlength="80" value="에버 퀘스트"><button id="eqCreate">새 방 생성 (GM)</button></div><div><label for="eqToken">초대 토큰 (URL에 넣지 마세요)</label><input id="eqToken" maxlength="64" autocomplete="off" spellcheck="false"><button id="eqJoin">초대로 참가</button></div></div><p id="eqInvite" style="overflow-wrap:anywhere"></p><div class="actions"><button id="eqLeave">로컬로 돌아가기</button><button id="eqDiscard">서버 장면/메모 다시 받기</button></div><p class="notice">최초 연결에는 setup.sql 실행 및 Supabase 익명 로그인이 필요합니다. 변경은 항목별로 저장되며 충돌 시 다시 적용해야 합니다. 초대 토큰은 비밀이며 브라우저 계정은 기기에 귀속됩니다.</p></section>
 <div class="layout">
  <aside class="panel" id="characters">
   <div class="panel-head"><h2>🧙 캐릭터</h2><button id="addCharBtn">＋ 추가</button></div>
@@ -46,7 +48,7 @@ input,select,textarea{background:#fbf1d9;color:#302719;border-color:#af9564;bord
   <div class="twocol"><div class="field"><label for="charHP">현재 HP</label><input id="charHP" type="number" min="0" max="999"></div><div class="field"><label for="charMaxHP">최대 HP</label><input id="charMaxHP" type="number" min="1" max="999"></div></div>
   <div class="field"><label for="charTrait">특기 / 메모</label><textarea id="charTrait" rows="2" placeholder="특기나 캐릭터 메모"></textarea></div>
   <button class="primary" id="updateCharBtn" style="width:100%">캐릭터 적용</button>
-  <p class="notice" style="margin:10px 0 0">첫 버전은 이 브라우저에 저장돼. 온라인 방 공유는 백엔드 연결 후 활성화돼.</p>
+  <p class="notice" style="margin:10px 0 0">로컬 캐릭터는 기기에 저장됩니다. 온라인에서는 본인 캐릭터만 수정할 수 있습니다.</p>
  </aside>
  <main class="stack">
   <section class="panel" id="mapPanel">
@@ -75,11 +77,11 @@ input,select,textarea{background:#fbf1d9;color:#302719;border-color:#af9564;bord
    <div class="panel-head"><h2>💬 세션 채팅</h2><button id="clearChatBtn" class="ghost">기록 지우기</button></div>
    <div class="log" id="chatLog" aria-live="polite"></div>
    <form id="chatForm" class="chat-compose"><input id="chatInput" maxlength="500" placeholder="메시지를 입력하세요…" autocomplete="off"><button class="primary" type="submit">전송</button></form>
-   <p class="notice" style="margin:9px 0 0">현재 채팅은 이 브라우저 안에서만 작동하는 시제품입니다.</p>
+   <p class="notice" style="margin:9px 0 0">로컬 채팅은 기기 전용, 온라인 채팅은 방 구성원 전용입니다. 주사위 결과는 클라이언트가 생성하며 공정성 검증용이 아닙니다.</p>
   </section>
  </aside>
 </div>
-<div class="footer">EVER QUEST · Prototype v0.1 · GitHub Pages ready · 멀티플레이는 Supabase 연결이 필요합니다.</div>
+<div class="footer">EVER QUEST · Prototype v0.1 · GitHub Pages ready · 온라인: 초대 전용 Supabase 원정대 · 로컬 모드 지원</div>
 </div>
 <div class="modal-back" id="modalBack"><div class="modal"><h2 id="modalTitle">방 설정</h2><div id="modalBody"></div><div class="modal-actions"><button id="modalCancel">취소</button><button class="primary" id="modalConfirm">적용</button></div></div></div>
 <div class="toast" id="toast"></div>
@@ -161,10 +163,93 @@ $('clearTokensBtn').onclick=()=>{if(confirm('모든 토큰을 지울까요?')){s
 $('sceneBtn').onclick=()=>openModal('장면 전환',`<div class="field"><label>새 장면 이름</label><input id="newScene" value="${esc($('sceneName').value)}"></div>`,()=>{$('sceneName').value=$('newScene').value;addMessage('장면 전환: '+$('sceneName').value,'system');toast('장면을 변경했어.')});
 $('addNoteBtn').onclick=()=>{$('sessionNotes').value+=($('sessionNotes').value?'\n':'')+'• ';$('sessionNotes').focus()};
 $('saveBtn').onclick=saveState;
-$('roomBtn').onclick=()=>openModal('방 설정',`<p class="notice">현재 버전은 브라우저 안에서 작동하는 시제품이야. 이 화면만으로는 다른 사람과 실시간으로 연결되지 않아.</p><div class="field"><label>세션 이름</label><input id="roomName" value="${esc(state.room==='LOCAL'?'나의 에버 퀘스트 세션':state.room)}"></div><div class="field"><label>참가자 표시 이름</label><input id="playerName" value="${esc(localStorage.getItem('everQuestPlayerName')||'플레이어')}"></div>`,()=>{state.room=$('roomName').value.trim()||'나의 에버 퀘스트 세션';localStorage.setItem('everQuestPlayerName',$('playerName').value.trim()||'플레이어');$('connectionText').textContent='로컬 테스트 모드';addMessage('세션 설정: '+state.room,'system');toast('설정을 적용했어.')});
+$('roomBtn').onclick=()=>openModal('방 설정',`<p class="notice">이 창은 로컬 세션 설정입니다. 실시간 방 생성/참가는 위의 온라인 원정대 패널을 사용하세요.</p><div class="field"><label>세션 이름</label><input id="roomName" value="${esc(state.room==='LOCAL'?'나의 에버 퀘스트 세션':state.room)}"></div><div class="field"><label>참가자 표시 이름</label><input id="playerName" value="${esc(localStorage.getItem('everQuestPlayerName')||'플레이어')}"></div>`,()=>{state.room=$('roomName').value.trim()||'나의 에버 퀘스트 세션';localStorage.setItem('everQuestPlayerName',$('playerName').value.trim()||'플레이어');$('connectionText').textContent='로컬 테스트 모드';addMessage('세션 설정: '+state.room,'system');toast('설정을 적용했어.')});
 $('modalBack').addEventListener('click',e=>{if(e.target===$('modalBack'))$('modalBack').style.display='none'});
 document.querySelectorAll('[data-scroll]').forEach(b=>b.onclick=()=>document.getElementById(b.dataset.scroll).scrollIntoView({behavior:'smooth',block:'start'}));
 loadState();$('sceneName').value=state.scene||'잊혀진 왕국의 입구';$('sessionNotes').value=state.notes||'';if(state.mapData)$('mapBoard').style.backgroundImage=`url("${state.mapData}")`;renderChars();renderTokens();renderChat();if(!state.chat.length)addMessage('에버 퀘스트 세션에 오신 것을 환영합니다. 먼저 캐릭터를 만들고 주사위를 굴려 보세요.','system');$('connectionText').textContent='로컬 테스트 모드';
+</script>
+<script>
+// Embedded into index.html; kept separately for review. No secret keys.
+const eq={active:false,ready:false,client:null,channel:null,room:null,role:null,uid:null,epoch:0,local:null,invite:'',poll:null,fetching:null,again:false,dirty:false,draftVersion:null,sceneVersion:null,connecting:false};
+const eqURL='https://wzmuxrnuazglkqdcdrzu.supabase.co';
+const eqKey='sb_publishable_0wuwu4QailLrO75roCeRdA_CNvUzVu0';
+const eqOriginal={roomClick:$('roomBtn').onclick};
+const eqIDs=['addCharBtn','updateCharBtn','characterList','charSelect','uploadMapBtn','mapInput','addTokenBtn','clearTokensBtn','sceneBtn','saveBtn','clearChatBtn','addNoteBtn','chatForm','mapBoard'];
+for(const id of eqIDs){const e=$(id);eqOriginal[id]={onclick:e.onclick,onchange:e.onchange,onsubmit:e.onsubmit,ondrop:e.ondrop};}
+eqOriginal.mapInput.onchange=e=>{const f=e.target.files[0];if(!f)return;if(f.size>3*1024*1024||!f.type.startsWith('image/')){toast('3MB 이하 이미지 파일을 선택해 줘.');return;}const epoch=eq.epoch,r=new FileReader();r.onload=()=>{if(eq.active||epoch!==eq.epoch)return;state.mapData=r.result;$('mapBoard').style.backgroundImage=`url("${r.result}")`;toast('배경을 적용했어. 저장 버튼을 눌러 줘.');};r.readAsDataURL(f);};
+const eqOldMessage=addMessage,eqOldTokens=renderTokens,eqOldChars=renderChars,eqOldSave=saveState;
+saveState=function(){if(!eq.active)return eqOldSave();};
+function eqStatus(text){$('connectionText').textContent=text;$('eqStatus').textContent=text;}
+function eqAllowed(gm=false){if(!eq.active)return true;if(!eq.ready){toast('연결/동기화가 완료되지 않았어.');return false;}if(gm&&eq.role!=='gm'){toast('GM만 변경할 수 있어.');return false;}return true;}
+function eqOwn(c){return c&&c.owner_id===eq.uid;}
+function eqRenderPermissions(){
+ for(const id of ['uploadMapBtn','mapInput'])$(id).disabled=eq.active;
+ for(const id of ['addTokenBtn','clearTokensBtn','sceneBtn','sceneName','sessionNotes','addNoteBtn','saveBtn'])$(id).disabled=eq.active&&(!eq.ready||eq.role!=='gm');
+ for(const id of ['charName','charClass','charHP','charMaxHP','charTrait','updateCharBtn'])$(id).disabled=eq.active&&(!eq.ready||!eqOwn(selected()));
+ $('clearChatBtn').disabled=eq.active;
+ $('addCharBtn').disabled=eq.active&&!eq.ready;
+ $('eqInvite').textContent=eq.active?(eq.invite?'초대 토큰 (신뢰하는 사람에게만): '+eq.invite:'참가자 · 초대 토큰은 방장에게 요청'):'로컬 데이터는 온라인 방과 분리되어 보존됩니다.';
+}
+const eqCharFields=['charName','charClass','charHP','charMaxHP','charTrait'];
+function eqCharDirty(){if(eq.active&&!eq.charDraft&&eqOwn(selected()))eq.charDraft={id:selected().id,version:selected().version};}
+for(const id of eqCharFields){$(id).addEventListener('input',eqCharDirty);$(id).addEventListener('change',eqCharDirty);}
+renderChars=function(){const keep=eq.active&&eq.charDraft?.id===state.selected;const draft=keep?eqCharFields.map(id=>$(id).value):null;eqOldChars();if(keep)eqCharFields.forEach((id,i)=>$(id).value=draft[i]);eqRenderPermissions();};
+renderTokens=function(){if(!eq.active)return eqOldTokens();const b=$('mapBoard');b.querySelectorAll('.token').forEach(e=>e.remove());$('mapEmpty').style.display=state.tokens.length?'none':'grid';for(const t of state.tokens){const e=document.createElement('div');e.className='token';e.textContent=t.icon;e.style.left=t.x+'%';e.style.top=t.y+'%';e.draggable=eq.role==='gm'&&eq.ready;const s=document.createElement('small');s.textContent=t.name;e.appendChild(s);e.addEventListener('dragstart',v=>v.dataTransfer.setData('text/plain',String(t.id)));e.addEventListener('click',()=>{if(eqAllowed(true)&&confirm(t.name+' 삭제?'))eqWrite(()=>eq.client.from('eq_tokens').delete().eq('room_id',eq.room).eq('id',t.id).eq('version',t.version).select('id'),true);});b.appendChild(e);}};
+async function eqSDK(){if(eq.client)return eq.client;if(!window.supabase){await new Promise((resolve,reject)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.8/dist/umd/supabase.js';s.onload=resolve;s.onerror=()=>{s.remove();reject(Error('Supabase 라이브러리를 불러오지 못했습니다. 인터넷/CDN을 확인하세요.'));};document.head.appendChild(s);});}eq.client=window.supabase.createClient(eqURL,eqKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false,storageKey:'everquest-supabase-auth'}});eq.client.auth.onAuthStateChange((event,session)=>{if(eq.active&&!session){eq.ready=false;eqStatus('인증 만료 · 로컬로 나간 후 재접속');eqRenderPermissions();}});return eq.client;}
+async function eqAuth(){const c=await eqSDK();let r=await c.auth.getSession();if(r.error)throw r.error;if(!r.data.session){r=await c.auth.signInAnonymously();if(r.error)throw r.error;}const user=r.data.session?.user||r.data.user;if(!user)throw Error('익명 인증 실패');eq.uid=user.id;return c;}
+async function eqFetch(){
+ if(!eq.active)return;if(eq.fetching){eq.again=true;return eq.fetching;}
+ const epoch=eq.epoch,room=eq.room,c=eq.client;
+ eq.fetching=(async()=>{try{
+ const result=await Promise.all([c.from('eq_members').select('role').eq('room_id',room).eq('user_id',eq.uid).single(),c.from('eq_scene').select('*').eq('room_id',room).single(),c.from('eq_characters').select('*').eq('room_id',room).order('id'),c.from('eq_tokens').select('*').eq('room_id',room).order('id'),c.from('eq_messages').select('*').eq('room_id',room).order('created_at',{ascending:false}).order('id',{ascending:false}).limit(200)]);
+ if(epoch!==eq.epoch)return;
+ for(const r of result)if(r.error)throw r.error;
+ eq.role=result[0].data.role;const scene=result[1].data;eq.sceneVersion=scene.version;
+ if(!eq.dirty){state.scene=scene.scene;state.notes=scene.notes;$('sceneName').value=scene.scene;$('sessionNotes').value=scene.notes;eq.draftVersion=scene.version;}
+ state.chars=result[2].data.map(c=>({...c,className:c.class_name,maxHp:c.max_hp}));state.tokens=result[3].data;state.chat=result[4].data.reverse().map(m=>({...m,time:new Date(m.created_at).toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})}));
+ if(!state.chars.some(c=>c.id===state.selected))state.selected=state.chars[0]?.id;
+ renderChars();renderTokens();renderChat();
+ }catch(e){if(epoch===eq.epoch){eq.ready=false;eqStatus('동기화 실패 · '+e.message);eqRenderPermissions();}throw e;}
+ finally{if(epoch===eq.epoch){eq.fetching=null;if(eq.again){eq.again=false;eqFetch().catch(()=>{});}}}})();return eq.fetching;
+}
+async function eqRefresh(){const epoch=eq.epoch;try{await eqFetch();if(epoch===eq.epoch&&eq.active&&eq.subscribed&&navigator.onLine){eq.ready=true;eqStatus('온라인 · '+(eq.role==='gm'?'GM':'참가자'));eqRenderPermissions();}}catch(_){} }
+async function eqEnter(room,invite){
+ $('modalBack').style.display='none';state.scene=$('sceneName').value;state.notes=$('sessionNotes').value;eq.local=structuredClone(state);eq.active=true;eq.ready=false;eq.room=room;eq.invite=invite||'';eq.epoch++;eq.dirty=false;eq.subscribed=false;eq.charDraft=null;
+ state={chars:[],tokens:[],chat:[],scene:'',notes:'',mapData:null,room,selected:null};$('mapBoard').style.backgroundImage='';renderChars();renderTokens();renderChat();eqStatus('방 동기화 중…');
+ const epoch=eq.epoch;
+ eq.channel=eq.client.channel('eq:'+room+':'+epoch);
+ for(const table of ['eq_scene','eq_characters','eq_tokens','eq_messages'])eq.channel.on('postgres_changes',{event:'*',schema:'public',table,filter:'room_id=eq.'+room},()=>{if(epoch===eq.epoch)eqRefresh();});
+ eq.channel.subscribe(async status=>{if(epoch!==eq.epoch)return;eq.subscribed=status==='SUBSCRIBED';eq.ready=false;if(eq.subscribed){await eqRefresh();}else{eqStatus('실시간 '+status+' · 재연결 대기');eqRenderPermissions();}});
+ // DELETE notifications can omit room_id, so periodic fetch also reconciles deletes/missed events.
+ eq.poll=setInterval(()=>{if(eq.active&&epoch===eq.epoch)eqRefresh();},5000);
+ await eqFetch();eqRenderPermissions();
+}
+async function eqLeave(){eq.epoch++;eq.active=false;eq.ready=false;eq.subscribed=false;clearInterval(eq.poll);const channel=eq.channel;eq.channel=null;eq.fetching=null;eq.again=false;if(eq.local){state=eq.local;eq.local=null;}$('sceneName').value=state.scene;$('sessionNotes').value=state.notes;$('mapBoard').style.backgroundImage=state.mapData?`url("${state.mapData}")`:'';renderChars();renderTokens();renderChat();eqStatus('로컬 테스트 모드');eq.invite='';eqRenderPermissions();if(channel)await eq.client.removeChannel(channel);}
+async function eqWrite(action,cas=false){if(!eqAllowed())return;const epoch=eq.epoch;try{const r=await action();if(r.error)throw r.error;if(cas&&(!r.data||!r.data.length))throw Error('다른 변경과 충돌했습니다. 최신 데이터를 확인하고 다시 적용하세요.');if(epoch===eq.epoch)await eqRefresh();}catch(e){if(epoch===eq.epoch){toast('저장 실패: '+e.message);await eqRefresh();}}}
+addMessage=function(text,type='normal',who='시스템'){if(!eq.active)return eqOldMessage(text,type,who);if(!eqAllowed())return;const id=crypto.randomUUID();return eqWrite(()=>eq.client.from('eq_messages').insert({id,room_id:eq.room,owner_id:eq.uid,who:(who==='시스템'?(selected()?.name||'플레이어'):who).slice(0,30),text:text.slice(0,2000),type:type==='roll'?'roll':'normal'}));};
+function eqHandler(id,event,online){$(id)[event]=function(e){if(!eq.active)return eqOriginal[id][event]?.call(this,e);return online(e);};}
+eqHandler('addCharBtn','onclick',()=>{if(eqAllowed())eqWrite(()=>eq.client.from('eq_characters').insert({room_id:eq.room,owner_id:eq.uid,name:'새 캐릭터',class_name:'전사',hp:14,max_hp:14,trait:CLASSES['전사'].trait}));});
+eqHandler('charSelect','onchange',e=>{eq.charDraft=null;state.selected=Number(e.target.value);renderChars();});
+eqHandler('characterList','onclick',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.select){eq.charDraft=null;state.selected=Number(b.dataset.select);renderChars();}if(b.dataset.hp){const c=state.chars.find(c=>c.id===Number(b.dataset.hp));if(!eqAllowed()||!eqOwn(c)){toast('자신의 캐릭터만 수정할 수 있어.');return;}eqWrite(()=>eq.client.from('eq_characters').update({hp:Math.max(0,Math.min(c.maxHp,c.hp+Number(b.dataset.delta)))}).eq('room_id',eq.room).eq('id',c.id).eq('version',c.version).select('id'),true);}});
+eqHandler('updateCharBtn','onclick',()=>{const c=selected();if(!eqAllowed()||!eqOwn(c)){toast('자신의 캐릭터만 수정할 수 있어.');return;}const max=Number($('charMaxHP').value),hp=Number($('charHP').value);if(!Number.isInteger(max)||max<1||max>999||!Number.isInteger(hp)||hp<0||hp>max){toast('HP 범위를 확인해 줘.');return;}const patch={name:$('charName').value.trim()||'모험가',class_name:$('charClass').value,hp,max_hp:max,trait:$('charTrait').value};const version=eq.charDraft?.id===c.id?eq.charDraft.version:c.version;const epoch=eq.epoch;eqWrite(async()=>{const r=await eq.client.from('eq_characters').update(patch).eq('room_id',eq.room).eq('id',c.id).eq('version',version).select('id');if(!r.error&&r.data?.length&&epoch===eq.epoch)eq.charDraft=null;return r;},true);});
+for(const id of ['uploadMapBtn','mapInput'])eqHandler(id,id==='mapInput'?'onchange':'onclick',()=>toast('온라인 이미지 업로드는 비활성화되어 있어. 로컬 모드에서만 가능해.'));
+eqHandler('addTokenBtn','onclick',()=>{if(eqAllowed(true))openModal('공유 토큰 추가','<label>이름</label><input id="onlineTokenName" maxlength="80" value="모험가"><label>아이콘</label><input id="onlineTokenIcon" maxlength="16" value="🧙">',()=>{if(eq.active&&eqAllowed(true))eqWrite(()=>eq.client.from('eq_tokens').insert({room_id:eq.room,name:$('onlineTokenName').value.trim()||'토큰',icon:$('onlineTokenIcon').value.trim()||'●',x:50,y:50}));});});
+eqHandler('mapBoard','ondrop',e=>{e.preventDefault();if(!eqAllowed(true))return;const t=state.tokens.find(t=>t.id===Number(e.dataTransfer.getData('text/plain')));if(!t)return;const r=$('mapBoard').getBoundingClientRect();eqWrite(()=>eq.client.from('eq_tokens').update({x:Math.max(4,Math.min(96,(e.clientX-r.left)/r.width*100)),y:Math.max(7,Math.min(90,(e.clientY-r.top)/r.height*100))}).eq('room_id',eq.room).eq('id',t.id).eq('version',t.version).select('id'),true);});
+eqHandler('clearTokensBtn','onclick',()=>{if(eqAllowed(true)&&confirm('공유 토큰 모두 삭제?'))eqWrite(()=>eq.client.from('eq_tokens').delete().eq('room_id',eq.room));});
+function eqDirty(){if(eq.active&&!eq.dirty){eq.dirty=true;eq.draftVersion=eq.sceneVersion;}}
+$('sceneName').addEventListener('input',eqDirty);$('sessionNotes').addEventListener('input',eqDirty);
+eqHandler('sceneBtn','onclick',()=>{if(eqAllowed(true)){$('sceneName').focus();toast('장면 이름을 편집한 뒤 저장을 눌러 줘.');}});
+eqHandler('addNoteBtn','onclick',()=>{if(eqAllowed(true)){eqDirty();$('sessionNotes').value+='\n• ';$('sessionNotes').focus();}});
+eqHandler('saveBtn','onclick',async()=>{if(!eqAllowed(true)||!eq.dirty)return;const epoch=eq.epoch;const patch={scene:$('sceneName').value,notes:$('sessionNotes').value};const version=eq.draftVersion;await eqWrite(async()=>{const r=await eq.client.from('eq_scene').update(patch).eq('room_id',eq.room).eq('version',version).select('room_id');if(!r.error&&r.data?.length&&epoch===eq.epoch)eq.dirty=false;return r;},true);});
+eqHandler('clearChatBtn','onclick',()=>toast('온라인 채팅은 참가자가 삭제할 수 없어.'));
+eqHandler('chatForm','onsubmit',e=>{e.preventDefault();if(!eqAllowed())return;const v=$('chatInput').value.trim();if(v){addMessage(v,'normal',selected()?.name||'플레이어');$('chatInput').value='';}});
+$('roomBtn').onclick=()=>{if(!eq.active)return eqOriginal.roomClick();return openModal('방 설정 · Supabase',`<p>온라인 방은 아래 패널에서 생성/참가합니다. 기존 로컬 세션은 분리 보관됩니다.</p><p>상태: ${esc($('connectionText').textContent)}</p><p>이미지는 온라인 업로드 불가. 장면·메모·토큰은 GM, 캐릭터는 소유자만 수정합니다.</p>`,()=>{});};
+async function eqConnect(join){if(eq.connecting||eq.active)return;eq.connecting=true;$('eqCreate').disabled=$('eqJoin').disabled=true;eqStatus('익명 인증 중…');try{const c=await eqAuth();const token=$('eqToken').value.trim();if(join&&!/^[0-9a-f]{64}$/.test(token))throw Error('64자리 소문자 16진수 초대 토큰이 필요해.');const r=await c.rpc(join?'eq_join':'eq_create',join?{invite:token}:{room_name:$('eqRoomName').value.trim()||'에버 퀘스트'});if(r.error)throw r.error;await eqEnter(join?r.data:r.data.room_id,join?'':r.data.invite);}catch(e){eqStatus((eq.active?'방 연결 실패: ':'온라인 준비 실패: ')+e.message);toast('SQL 설치 및 익명 인증 설정을 확인하세요.');}finally{eq.connecting=false;$('eqCreate').disabled=$('eqJoin').disabled=eq.active;}}
+$('eqCreate').onclick=()=>eqConnect(false);$('eqJoin').onclick=()=>eqConnect(true);$('eqLeave').onclick=async()=>{if(eq.connecting)return;await eqLeave();$('eqCreate').disabled=$('eqJoin').disabled=false;};
+$('eqDiscard').onclick=()=>{if(eq.active&&confirm('장면/메모/캐릭터 초안을 버리고 서버의 최신 데이터로 갱신?')){eq.dirty=false;eq.charDraft=null;eqRefresh();}};
+window.addEventListener('online',()=>{if(eq.active)eqRefresh();});window.addEventListener('offline',()=>{if(eq.active){eq.ready=false;eqStatus('오프라인 · 변경 전송 중지');eqRenderPermissions();}});
+eqStatus('로컬 테스트 모드');eqRenderPermissions();
+
 </script>
 </body>
 </html>
