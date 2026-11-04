@@ -24,22 +24,28 @@ input,select,textarea{background:#fbf1d9;color:#302719;border-color:#af9564;bord
 @media(max-width:760px){button,.actions button,#mapPanel .scene-tools button{min-height:44px}.scene-tools{display:grid;grid-template-columns:1fr 1fr}.notice{font-size:13px}input,select,textarea{font-size:16px}.panel{scroll-margin-top:70px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 #eq-online .twocol{display:grid;grid-template-columns:1fr 1fr;gap:16px}#eq-online label{display:block;margin-bottom:6px}#eq-online input{width:100%;margin-bottom:8px}#eq-online .actions{margin-top:12px}#eq-online .notice{line-height:1.6}#eqInvite{user-select:all}@media(max-width:760px){#eq-online .twocol{grid-template-columns:1fr}#eq-online button{min-height:44px}#eq-online .notice{font-size:13px}}
+
+/* Quiet, map-first functional workspace. */
+:root{--bg:#15191e;--panel:#20262d;--panel2:#272f38;--line:#3b4652;--text:#e2e8ed;--muted:#a6b2bd;--gold:#8fbac8}
+body{background:#15191e;color:var(--text);font:14px/1.5 system-ui,sans-serif}.app{max-width:none;padding:12px 16px}.topbar{color:var(--text);padding:4px 0 12px;border-color:var(--line);margin-bottom:12px}.brand h1{font:600 18px system-ui;letter-spacing:.07em}.eyebrow,.brand .muted,.footer{display:none}.topbar .status{color:var(--muted);border-color:var(--line)}.layout{grid-template-columns:225px minmax(300px,1fr) 320px;gap:12px}.panel,.modal{background:var(--panel);border:1px solid var(--line);box-shadow:none;border-radius:4px;padding:12px;color:var(--text)}.panel h2,.panel h3{font-family:inherit;letter-spacing:0}.panel-head{border-color:var(--line)}.tag{background:transparent;color:var(--muted);border-color:var(--line)}input,select,textarea{background:#171d23;color:var(--text);border:1px solid var(--line);box-shadow:none;border-radius:3px;padding:8px}button,button.primary{background:#303c46;color:#e6edf2;border:1px solid #536575;box-shadow:none;font-weight:500;border-radius:3px;padding:7px 9px}button.ghost,.topbar button.ghost{color:var(--text);border-color:var(--line)}.char-card,.dice-result,.log{background:#192027;border-color:var(--line);border-radius:3px}.meter{background:#35434d}.meter.hp span{background:#79a79a}.message,.message.roll{background:transparent;border-color:var(--line);color:var(--text)}.message.system,.notice,.meta{color:var(--muted)}.dice-number{color:var(--text);font-family:inherit}.map-board{min-height:540px;height:72vh;border:1px solid var(--line);box-shadow:none;background-color:#202b30;background-image:linear-gradient(#70818a18 1px,transparent 1px),linear-gradient(90deg,#70818a18 1px,transparent 1px);background-size:48px 48px}.map-empty,.map-empty strong{color:#b4c1ca;font-family:inherit}.map-empty strong{font-size:18px}.token{background:#45616c;border-color:#afc3c9;box-shadow:0 2px 5px #0005}.log{height:280px}.right-col{gap:12px}.check{display:flex;gap:8px;align-items:center;margin:10px 0}.check input{width:auto}summary{cursor:pointer;font-weight:600;padding:5px 0}details[open]>summary{margin-bottom:10px}#combatPanel details{margin-top:10px;border-top:1px solid var(--line);padding-top:5px}#combatPanel button{margin:3px 0}#diceResult{white-space:pre-wrap;overflow-wrap:anywhere}button:disabled{opacity:.45;cursor:not-allowed}.mobile-tabs{background:var(--bg)}
+@media(min-width:1700px){.layout{grid-template-columns:240px minmax(600px,1fr) 340px}}@media(max-width:1100px) and (min-width:761px){.layout{grid-template-columns:190px minmax(260px,1fr)}.right-col{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr}.right-col #chatPanel{grid-column:1/-1}.map-board{height:65vh;min-height:440px}}@media(max-width:760px){.app{padding:8px}.layout{display:flex}.map-board{min-height:320px;height:52vh}.right-col{display:flex}.topbar .brand h1{font-size:16px}button{min-height:44px}.mobile-tabs button{color:var(--text)}}
+#chatPanel{order:-1}#chatPanel .log{height:210px}.dice-result{min-height:72px!important;padding:10px!important}#mapPanel .map-board{height:60vh;min-height:400px}.map-empty strong{font-size:16px}@media(min-width:1101px){.right-col{max-height:calc(100vh - 125px);overflow:auto;padding-right:3px}}@media(max-width:760px){#mapPanel .map-board{min-height:300px;height:50vh}}
 </style>
 </head>
 <body>
 <div class="app">
 <header class="topbar">
- <div class="brand"><div class="logo">⚔</div><div><div class="eyebrow">ONLINE TABLETOP RPG</div><h1>EVER QUEST</h1><div class="muted small">A story shaped by your rolls.</div></div></div>
+ <div class="brand"><div><div class="eyebrow">ONLINE TABLETOP RPG</div><h1>EVER QUEST</h1><div class="muted small">Tabletop workspace</div></div></div>
  <div class="top-actions"><span class="status"><span class="dot"></span><span id="connectionText">로컬 테스트 모드</span></span><button class="ghost" id="roomBtn">방 설정</button><button class="primary" id="saveBtn">저장</button></div>
 </header>
 <div class="mobile-tabs"><button data-scroll="characters">캐릭터</button><button data-scroll="mapPanel">맵</button><button data-scroll="chatPanel">채팅</button><button data-scroll="dicePanel">주사위</button></div>
-<section class="panel" id="eq-online" style="margin-bottom:16px"><h2>⚔ 온라인 원정대</h2><p id="eqStatus" role="status">로컬 테스트 모드</p><div class="twocol"><div><label for="eqRoomName">새 방 이름</label><input id="eqRoomName" maxlength="80" value="에버 퀘스트"><button id="eqCreate">새 방 생성 (GM)</button></div><div><label for="eqToken">초대 토큰 (URL에 넣지 마세요)</label><input id="eqToken" maxlength="64" autocomplete="off" spellcheck="false"><button id="eqJoin">초대로 참가</button></div></div><p id="eqInvite" style="overflow-wrap:anywhere"></p><div class="actions"><button id="eqLeave">로컬로 돌아가기</button><button id="eqDiscard">서버 장면/메모 다시 받기</button></div><p class="notice">최초 연결에는 setup.sql 실행 및 Supabase 익명 로그인이 필요합니다. 변경은 항목별로 저장되며 충돌 시 다시 적용해야 합니다. 초대 토큰은 비밀이며 브라우저 계정은 기기에 귀속됩니다.</p></section>
+<details class="panel" id="eq-online" style="margin-bottom:12px"><summary>온라인 방 · 생성 / 참가 / 연결</summary><h2>온라인 원정대</h2><p id="eqStatus" role="status">로컬 테스트 모드</p><div class="twocol"><div><label for="eqRoomName">새 방 이름</label><input id="eqRoomName" maxlength="80" value="에버 퀘스트"><button id="eqCreate">새 방 생성 (GM)</button></div><div><label for="eqToken">초대 토큰 (URL에 넣지 마세요)</label><input id="eqToken" maxlength="64" autocomplete="off" spellcheck="false"><button id="eqJoin">초대로 참가</button></div></div><p id="eqInvite" style="overflow-wrap:anywhere"></p><div class="actions"><button id="eqLeave">로컬로 돌아가기</button><button id="eqDiscard">서버 장면/메모 다시 받기</button></div><p class="notice">최초 연결에는 setup.sql 실행 및 Supabase 익명 로그인이 필요합니다. 변경은 항목별로 저장되며 충돌 시 다시 적용해야 합니다. 초대 토큰은 비밀이며 브라우저 계정은 기기에 귀속됩니다.</p></details>
 <div class="layout">
  <aside class="panel" id="characters">
-  <div class="panel-head"><h2>🧙 캐릭터</h2><button id="addCharBtn">＋ 추가</button></div>
+  <div class="panel-head"><h2>캐릭터</h2><button id="addCharBtn">＋ 추가</button></div>
   <div id="characterList"></div>
   <div class="divider"></div>
-  <h3>선택한 캐릭터</h3>
+  <details id="characterSheet"><summary>캐릭터 시트 편집</summary>
   <div class="field"><label for="charSelect">캐릭터 선택</label><select id="charSelect"></select></div>
   <div class="field"><label for="charName">이름</label><input id="charName" maxlength="30" placeholder="캐릭터 이름"></div>
   <div class="field"><label for="charClass">직업</label><select id="charClass">
@@ -48,40 +54,40 @@ input,select,textarea{background:#fbf1d9;color:#302719;border-color:#af9564;bord
   <div class="twocol"><div class="field"><label for="charHP">현재 HP</label><input id="charHP" type="number" min="0" max="999"></div><div class="field"><label for="charMaxHP">최대 HP</label><input id="charMaxHP" type="number" min="1" max="999"></div></div>
   <div class="field"><label for="charTrait">특기 / 메모</label><textarea id="charTrait" rows="2" placeholder="특기나 캐릭터 메모"></textarea></div>
   <button class="primary" id="updateCharBtn" style="width:100%">캐릭터 적용</button>
-  <p class="notice" style="margin:10px 0 0">로컬 캐릭터는 기기에 저장됩니다. 온라인에서는 본인 캐릭터만 수정할 수 있습니다.</p>
+  <p class="notice" style="margin:10px 0 0">로컬 캐릭터는 기기에 저장됩니다. 온라인에서는 본인 캐릭터만 수정할 수 있습니다.</p></details>
  </aside>
  <main class="stack">
   <section class="panel" id="mapPanel">
-   <div class="panel-head"><h2>🗺 장면 / 맵</h2><span class="tag">GM TOOL</span></div>
+   <div class="panel-head"><h2>장면 / 맵</h2><span class="tag">GM TOOL</span></div>
    <div class="scene-tools"><button id="uploadMapBtn">배경 업로드</button><input id="mapInput" type="file" accept="image/*" hidden><button id="addTokenBtn">토큰 추가</button><button id="clearTokensBtn">토큰 초기화</button><button id="sceneBtn">장면 전환</button></div>
    <div class="field"><label for="sceneName">장면 이름</label><input id="sceneName" value="잊혀진 왕국의 입구" maxlength="80"></div>
    <div class="map-board" id="mapBoard"><div class="map-empty" id="mapEmpty"><div><strong>이곳이 모험의 무대입니다</strong>배경을 업로드하거나 토큰을 추가해 보세요.<br><span class="small">토큰은 드래그해서 이동할 수 있어요.</span></div></div></div>
    <p class="notice" style="margin:9px 0 0">이미지 배경은 현재 브라우저에만 적용돼. 여러 참가자에게 공유하려면 스토리지 연결이 필요해.</p>
   </section>
   <section class="panel">
-   <div class="panel-head"><h2>📜 세션 메모</h2><button id="addNoteBtn">메모 추가</button></div>
+   <div class="panel-head"><h2>세션 메모</h2><button id="addNoteBtn">메모 추가</button></div>
    <textarea id="sessionNotes" rows="3" placeholder="단서, NPC, 퀘스트 목표 등을 기록하세요."></textarea>
   </section>
  </main>
  <aside class="right-col stack">
   <section class="panel" id="dicePanel">
-   <div class="panel-head"><h2>🎲 판정 / 주사위</h2><span class="tag">EVER QUEST</span></div>
-   <div class="field"><label for="rollType">판정 유형</label><select id="rollType"><option value="trait">특기 판정 · 1d6</option><option value="stat">스탯 판정 · 3d6</option><option value="absolute">절대 판정 · 2d6</option><option value="attack">공격 판정 · 1d6</option><option value="evade">회피 판정 · 1d6</option><option value="break">파괴 판정 · 1d6</option></select></div>
-   <div class="twocol"><div class="field"><label for="targetNumber">목표치</label><input id="targetNumber" type="number" value="4" min="1" max="99"></div><div class="field"><label for="rollModifier">보정치</label><input id="rollModifier" type="number" value="0" min="-20" max="20"></div></div>
+   <div class="panel-head"><h2>판정 / 주사위</h2><span class="tag">EVER QUEST</span></div>
+   <div class="field"><label for="rollType">판정 유형</label><select id="rollType"><option value="action">행동 · 1d6 ≥4</option><option value="trait">특기 행동 · 1d6</option><option value="absolute">절대 · 2d6 ≥7</option><option value="attack">공격 · 1d6 ≥4</option><option value="evade">회피 · 1d6 ≥4</option><option value="parry">쳐내기 · 1d6 ≥5</option></select></div>
+   <label class="check"><input type="checkbox" id="relevantSkill"> 관련 특기 있음 · 행동 성공 ≥3</label><input id="targetNumber" value="4" hidden><input id="rollModifier" value="0" hidden>
    <button class="primary" id="rollBtn" style="width:100%;padding:12px">주사위 굴리기</button>
    <div class="divider"></div><div class="dice-result" id="diceResult"><div class="muted small">마지막 판정</div><div class="dice-number">—</div><div class="small">주사위를 굴리면 결과가 여기에 표시됩니다.</div></div>
    <div class="divider"></div><h3>빠른 굴림</h3><div class="actions"><button data-dice="1">1d6</button><button data-dice="2">2d6</button><button data-dice="3">3d6</button><button data-dice="20">1d20</button></div>
-   <p class="notice" style="margin:10px 0 0">노트의 판정 규칙을 바탕으로 한 초기 구현이야. 특기·스탯·절대는 입력 목표치, 공격·회피는 보정 합계 4 이상, 파괴는 원래 주사위 눈 5 이상을 사용해. 세부 예외는 규칙 확인 후 조정할 수 있어.</p>
+   <p class="notice" style="margin:10px 0 0">공격에는 특기/명중 보정을 적용하지 않습니다. 자연 6 피해 4, 그 외 명중 피해 2. 대상 피해는 수동 적용합니다.</p>
   </section>
-  <section class="panel" id="chatPanel">
-   <div class="panel-head"><h2>💬 세션 채팅</h2><button id="clearChatBtn" class="ghost">기록 지우기</button></div>
+<section class="panel" id="combatPanel"><h2>전투 / 카드</h2><p id="combatStatus" class="notice"></p><button id="resetCombat">새 전투 · 선택 캐릭터</button><details><summary>직업 능력 / 들어오는 피해</summary><label for="incomingDamage">들어오는 피해</label><input id="incomingDamage" type="number" min="0" max="999" value="4"><div class="actions"><button id="priestHeal">사제 치유 2</button><button id="redirectDamage">성기사 대신 받기 −1</button></div><label class="check"><input type="checkbox" id="smithBuff"> 대장장이 피해 +1 · 수동 토글</label><p class="notice">궁수 지속시간, 마법사 추가 피해, 대장장이 지속시간은 미확정. 자동 적용하지 않습니다. 메모와 HP 도구로 합의한 효과만 수동 처리하세요.</p></details><details><summary>돌발 효과 카드 · 손패 최대 2</summary><p id="handStatus"></p><label for="cardSlot">소비 / 교체할 카드</label><select id="cardSlot"></select><div class="actions"><button id="drawCard">빈 자리에 받기</button><button id="useCard">선택 카드 사용</button></div><label for="cardName">수동 카드 지정</label><select id="cardName"><option>결의</option><option>분노</option><option>갈림길</option><option>작은 마나 방패</option><option>회상</option><option>강한 심장</option><option>숨결</option><option>인내</option><option>초재생</option></select><button id="setCard">선택 슬롯 지정</button><label for="crossroadsMode">갈림길 선택</label><select id="crossroadsMode"><option value="self">자신의 피해 ≥4 차단</option><option value="others">자신 제외 모두 피해 차단</option></select><div id="resolveChoice" hidden><button id="keepOld">기존 결과 선택</button><button id="keepNew">새 결과 선택</button></div><label for="resurrectionCount">부활 · 소비 카드 수 (선택 1장 / 전체 2장)</label><select id="resurrectionCount"><option value="1">1장 · d6 ×1</option><option value="2">2장 · d6 ×2</option></select><button id="resurrect">소비하고 선택 캐릭터 회복</button><p class="notice">최초 손패는 임시 결의 2장: 배분받은 카드로 수동 지정하세요. 받기는 결의 12 + 나머지 8종 각 1의 복원 추첨입니다. 공유 덱 소진/재분배는 수동. 기타 카드 효과는 소비 기록 후 수동 처리.</p></details></section>  <section class="panel" id="chatPanel">
+   <div class="panel-head"><h2>세션 채팅</h2><button id="clearChatBtn" class="ghost">기록 지우기</button></div>
    <div class="log" id="chatLog" aria-live="polite"></div>
    <form id="chatForm" class="chat-compose"><input id="chatInput" maxlength="500" placeholder="메시지를 입력하세요…" autocomplete="off"><button class="primary" type="submit">전송</button></form>
    <p class="notice" style="margin:9px 0 0">로컬 채팅은 기기 전용, 온라인 채팅은 방 구성원 전용입니다. 주사위 결과는 클라이언트가 생성하며 공정성 검증용이 아닙니다.</p>
   </section>
  </aside>
 </div>
-<div class="footer">EVER QUEST · Prototype v0.1 · GitHub Pages ready · 온라인: 초대 전용 Supabase 원정대 · 로컬 모드 지원</div>
+<div class="footer">EVER QUEST · 로컬 / 초대 전용 온라인 · 주사위 공정성 검증 없음</div>
 </div>
 <div class="modal-back" id="modalBack"><div class="modal"><h2 id="modalTitle">방 설정</h2><div id="modalBody"></div><div class="modal-actions"><button id="modalCancel">취소</button><button class="primary" id="modalConfirm">적용</button></div></div></div>
 <div class="toast" id="toast"></div>
@@ -93,7 +99,7 @@ const CLASSES={
  '사제':{hp:10,trait:'회복, 지원'},
  '도적':{hp:10,trait:'잠입, 함정 해제'},
  '성기사':{hp:12,trait:'방어, 의지'},
- '창기병':{hp:10,trait:'위협, 기동'},
+ '창기병':{hp:11,trait:'위협, 기동'},
  '대장장이':{hp:10,trait:'제작, 장비 관리'}
 };
 const $=id=>document.getElementById(id);
@@ -249,6 +255,44 @@ $('eqCreate').onclick=()=>eqConnect(false);$('eqJoin').onclick=()=>eqConnect(tru
 $('eqDiscard').onclick=()=>{if(eq.active&&confirm('장면/메모/캐릭터 초안을 버리고 서버의 최신 데이터로 갱신?')){eq.dirty=false;eq.charDraft=null;eqRefresh();}};
 window.addEventListener('online',()=>{if(eq.active)eqRefresh();});window.addEventListener('offline',()=>{if(eq.active){eq.ready=false;eqStatus('오프라인 · 변경 전송 중지');eqRenderPermissions();}});
 eqStatus('로컬 테스트 모드');eqRenderPermissions();
+
+</script>
+<script>
+// Confirmed rules only. Each owned character is its own combat/card record.
+const CARD_NAMES=['결의','분노','갈림길','작은 마나 방패','회상','강한 심장','숨결','인내','초재생'];
+const DECK=Array(12).fill('결의').concat(CARD_NAMES.slice(1));
+let rulesBusy=false;
+function freshCombat(){return {evade:0,parry:0,heal:0,redirect:0,first:false,extra:false,extraUsed:false};}
+function rulesData(c){const r=c?.rules;return {hand:Array.isArray(r?.hand)?r.hand.slice(0,2):['결의','결의'],combat:{...freshCombat(),...(r?.combat||{})},smith:!!r?.smith,last:r?.last||null,pending:r?.pending||null};}
+function d6(){return Math.floor(Math.random()*6)+1;}
+function showRule(text){$('diceResult').textContent=text;}
+function renderRules(){const c=selected(),r=rulesData(c);$('combatStatus').textContent=c?`${c.name} · 회피 ${r.combat.evade}/1 · 쳐내기 ${r.combat.parry}/1 · 치유 ${r.combat.heal}/2 · 대신 받기 ${r.combat.redirect}/2${r.combat.extra?' · 추가 회피 가능':''}`:'캐릭터를 선택하세요';$('handStatus').textContent='손패: '+r.hand.join(' / ');$('cardSlot').innerHTML=r.hand.map((x,i)=>`<option value="${i}">${i+1}. ${esc(x)}</option>`).join('');$('resolveChoice').hidden=!r.pending;if(r.pending){$('keepOld').textContent='기존: '+outcomeText(r.pending.old);$('keepNew').textContent='새: '+outcomeText(r.pending.next);}$('smithBuff').checked=r.smith;}
+const priorRender=renderChars;renderChars=function(){priorRender();renderRules();};
+async function rulesChange(action){if(rulesBusy)return;const c=selected();if(!c)return;if(eq.active&&(!eqAllowed()||!eqOwn(c))){toast('본인 캐릭터만 변경할 수 있습니다.');return;}rulesBusy=true;try{const copy=structuredClone(c),r=rulesData(copy);const text=action(r,copy);if(!text)return;copy.rules=r;
+ if(eq.active){const epoch=eq.epoch,room=eq.room;const res=await eq.client.from('eq_characters').update({rules:r,hp:copy.hp}).eq('room_id',room).eq('id',c.id).eq('version',c.version).select('id');if(epoch!==eq.epoch)return;if(res.error)throw res.error;if(!res.data?.length)throw Error('충돌: 최신 캐릭터에서 다시 시도하세요.');await eqRefresh();}else{c.rules=r;c.hp=copy.hp;renderChars();}
+ showRule(text);addMessage(`${c.name}: ${text}`,'roll');
+ }catch(e){toast('규칙 저장 실패: '+e.message);if(eq.active)await eqRefresh();}finally{rulesBusy=false;renderRules();}}
+function outcome(type,values,skill=false){const n=values[0],sum=values.reduce((a,b)=>a+b,0);return {type,values,skill,success:sum>=(type==='absolute'?7:skill?3:4)};}
+function outcomeText(o){return `${o.type==='absolute'?'절대 판정':'행동 판정'} [${o.values.join(' + ')}] · ${o.success?'성공':'실패'}`;}
+$('rollBtn').onclick=()=>rulesChange((r,c)=>{if(r.pending){toast('먼저 결의의 기존/새 결과를 선택하세요.');return;}const type=$('rollType').value,n=d6();let text='';const k=r.combat;
+ if(['action','trait','absolute'].includes(type)){const o=outcome(type,[n,...(type==='absolute'?[d6()]:[])],type!=='absolute'&&$('relevantSkill').checked);r.last=o;return outcomeText(o);}
+ r.last=null;
+ if(type==='attack'){const first=c.className==='도적'&&!k.first;k.first=true;const hit=first||n>=4;let damage=hit?(n===6?4:2)+(first?1:0)+(r.smith?1:0):0;text=`공격 [${n}] · ${hit?'성공 · 피해 '+damage:'실패'}${first?' · 도적 첫 공격 확정 +1 피해':''}`;if(n===1){const f=d6(),self=f<=3?2:1;c.hp=Math.max(0,c.hp-self);text+=` · 자연 1 추가 [${f}], 자해 ${self}`;}if(hit&&c.className==='창기병'&&!k.extraUsed&&!k.extra){const v=d6();k.extra=v>=4;text+=` · 창기병 [${v}] ${k.extra?'추가 회피 획득':'획득 실패'}`;}return text+' (대상 피해는 수동 적용)';}
+ if(type==='evade'){if(k.evade>=1&&!k.extra){toast('이번 전투 회피 사용 완료');return;}if(k.evade>=1){k.extra=false;k.extraUsed=true;}else k.evade++;return `회피 [${n}] · ${n>=4?'성공':'실패'}`;}
+ if(type==='parry'){if(k.parry>=1){toast('이번 전투 쳐내기 사용 완료');return;}k.parry++;const bonus=c.className==='전사'?1:0;return `쳐내기 [${n}] + ${bonus} · ${n+bonus>=5?'성공':'실패'} (피해 보너스 없음)`;}
+});
+$('resetCombat').onclick=()=>{if(confirm('선택 캐릭터의 전투 사용 횟수만 초기화할까요? 손패/HP/수동 버프는 유지됩니다.'))rulesChange(r=>{r.combat=freshCombat();r.last=null;r.pending=null;return '새 전투 · 사용 횟수 초기화';});};
+$('priestHeal').onclick=()=>rulesChange((r,c)=>{if(c.className!=='사제'||r.combat.heal>=2){toast('사제만 전투당 2회 사용');return;}r.combat.heal++;return '사제 치유 2 · 대상 HP +2를 수동 적용하세요.';});
+$('redirectDamage').onclick=()=>rulesChange((r,c)=>{const n=Number($('incomingDamage').value);if(!Number.isInteger(n)||n<0||n>999)return;if(c.className!=='성기사'||r.combat.redirect>=2){toast('성기사만 전투당 2회 사용');return;}r.combat.redirect++;const damage=Math.max(0,n-1);c.hp=Math.max(0,c.hp-damage);return `성기사 대신 받기 · ${n}−1 = ${damage} 피해 적용 · 원래 대상 피해는 수동 취소`;});
+$('smithBuff').onchange=()=>{const value=$('smithBuff').checked;rulesChange(r=>{r.smith=value;return '대장장이 피해 +1 '+(value?'수동 활성화':'수동 해제')+' · 명중 보정 없음';});};
+$('drawCard').onclick=()=>rulesChange(r=>{if(r.hand.length>=2){toast('손패 상한 2장');return;}const name=DECK[Math.floor(Math.random()*DECK.length)];r.hand.push(name);return '카드 받기: '+name+' · 복원 추첨(공유 소진 덱 아님)';});
+$('setCard').onclick=()=>rulesChange(r=>{const i=Number($('cardSlot').value),name=$('cardName').value;if(!CARD_NAMES.includes(name)||!Number.isInteger(i)||i<0||i>=Math.max(1,r.hand.length))return;if(!r.hand.length)r.hand.push(name);else r.hand[i]=name;return 'GM 합의 수동 손패 지정: '+name;});
+$('useCard').onclick=()=>rulesChange((r,c)=>{const i=Number($('cardSlot').value),name=r.hand[i];if(!name)return;if(r.pending){toast('결의 결과를 먼저 선택하세요.');return;}if(name==='결의'){if(!r.last){toast('행동/절대 판정 후 사용하세요.');return;}const old=r.last,next=outcome(old.type,old.values.map(()=>d6()),old.skill);r.pending={old,next};r.hand.splice(i,1);return `결의 · 기존 ${outcomeText(old)} / 새 ${outcomeText(next)} · 아래에서 선택`;}
+ if(name==='갈림길'){const mode=$('crossroadsMode').value,n=Number($('incomingDamage').value);if(!['self','others'].includes(mode))return;if(mode==='self'&&(!Number.isInteger(n)||n<4||n>999)){toast('자신의 들어오는 피해 4 이상에만 사용');return;}r.hand.splice(i,1);return mode==='self'?`갈림길 · 자신의 들어오는 피해 ${n} 차단 (HP 차감하지 마세요)`:'갈림길 · 자신 제외 모두의 피해 차단 (본인 피해는 별도 적용)';}
+ r.hand.splice(i,1);return name+' 소비 · 효과/대상/지속시간은 규칙 확인 후 수동 적용';});
+for(const [id,key] of [['keepOld','old'],['keepNew','next']])$(id).onclick=()=>rulesChange(r=>{if(!r.pending)return;r.last=r.pending[key];r.pending=null;return '결의 선택 · '+outcomeText(r.last);});
+$('resurrect').onclick=()=>rulesChange((r,c)=>{const count=Number($('resurrectionCount').value);if(![1,2].includes(count)||r.hand.length<count){toast('선택한 수만큼 손패가 필요합니다.');return;}const i=Number($('cardSlot').value);if(count===1&&(!Number.isInteger(i)||i<0||i>=r.hand.length))return;const spent=count===2?r.hand.splice(0,2):r.hand.splice(i,1);const n=d6(),heal=n*count;c.hp=Math.min(c.maxHp,c.hp+heal);return `부활 · ${spent.join(', ')} 소비 · [${n}] × ${count} = ${heal} 회복 (선택 캐릭터)`;});
+renderRules();
 
 </script>
 </body>
